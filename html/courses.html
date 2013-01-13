@@ -1,0 +1,25 @@
+<%inherit file="base.html"/>
+
+<%!
+   from courses import load
+%>
+
+<%def name="head()">
+</%def>
+
+<%def name="body()">
+
+<h1>Course Listing</h1>
+
+<table border=1>
+<tr>
+<td colSpan="2">Course</td><td>Expected Enrollment</td><td>Offered</td></tr>
+%for file in load("data/courses.txt"):        
+<tr>
+  <td>${file.code}</td><td>${file.number}</td><td>${file.expected}</td><td>${file.offered}</td>
+</tr>
+%endfor
+</table>
+
+</%def>
+
