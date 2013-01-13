@@ -1,0 +1,40 @@
+ p { color:#009900; font-family:"comic sans ms",sans-serif; } 
+ html,body { height:100% }
+ body { 
+  margin: 0px;
+  padding: 0px;
+  text-align: center;
+  font-family: "helvetica"; 
+  background: #747474 url(images/back.gif) top center;
+  background-repeat: repeat-y;
+ }  
+ #container {
+  margin: 0px auto;
+  padding: 0px;
+  width: 1024px;
+  text-align: left;
+  border: 1px solid black;
+  background: #ffffff;
+  min-height: 100%;
+ } 
+ #header {
+  margin: 0px;
+  padding: 10px;
+  font-family: "Lucida Grande", "Trebuchet MS";
+  height: 60px;
+  max-height: 60px;
+  background-color: #cdbc97;
+ }		 
+ #header h1 { margin: 0px; font-size: 24pt; font-weight: bold; }		  		  
+
+ #content {
+  margin-left: auto;
+  margin-right: 2em;
+  margin-top: 0;
+  padding: 1em 1em 1em 1em;
+  font-family: "Lucida Grande", "Trebuchet MS";
+  font-size: 0.8em;
+  text-align: "justify";
+ } 
+ #content h1 { margin: 0 0 20 0px; font-size: 22pt; font-weight: normal; }
+ #content h2 { margin: 0 0 10 0; font-size: 14pt; font-weight: normal; }
