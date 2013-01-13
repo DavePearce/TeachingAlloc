@@ -14,10 +14,10 @@ sys.path.insert(0, ".")
 # ============================================================
 
 import cherrypy
-import automark
+import main
 
 # ============================================================
 # Run Local HTTP Server
 # ============================================================
 
-cherrypy.quickstart(automark.Automark())
+cherrypy.quickstart(main.Main())

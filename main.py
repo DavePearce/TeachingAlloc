@@ -1,6 +1,7 @@
 # -*-python-*-
 
 import os
+from cherrypy.lib.static import serve_file
 
 # ============================================================
 # Mako Config
@@ -8,19 +9,13 @@ import os
 
 from mako.template import Template
 from mako.lookup import TemplateLookup
-lookup = TemplateLookup(directories=['templates'])
+lookup = TemplateLookup(directories=['html'])
 
 # ============================================================
-# File Downloads
+# Application Entry
 # ============================================================
 
-from cherrypy.lib.static import serve_file
-
-# ============================================================
-# Automark Application
-# ============================================================
-
-class Automark:
+class Main:
     # gives access to images/
     def images(self, filename):
         abspath = os.path.abspath("images/" + filename)

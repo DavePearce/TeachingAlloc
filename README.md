@@ -1,4 +1,4 @@
-Automark
-========
+Teaching Allocator
+==================
 
-A Simple Web Application for Marking Student Assignments.
+A Simple Web Application for Handling Teaching Assignments.
