@@ -2,13 +2,16 @@
 
 <%!
    from courses import load
+   from courses import save
 %>
 
 <%def name="head()">
 </%def>
 
 <%def name="body()">
-
+<%
+save("data/courses.txt",load("data/courses.txt"))
+%>
 <h1>Course Listing</h1>
 
 <table border=1>
