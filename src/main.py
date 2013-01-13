@@ -2,6 +2,7 @@
 
 import os
 from cherrypy.lib.static import serve_file
+import filedb
 
 # ============================================================
 # Mako Config
@@ -15,10 +16,11 @@ lookup = TemplateLookup(directories=['html'])
 # Application Entry
 # ============================================================
 
-class Main:
+class Main(object):
     def __init__(self,root_url,username):
         self.root_url = root_url
         self.username = username
+        self.data = filedb.Table("data/couses.py",[])
         
     # gives access to images/
     def images(self, filename):
