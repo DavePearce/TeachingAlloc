@@ -3,7 +3,7 @@
 <%def name="head()">
 <script type="text/JavaScript">
 $(document).ready(function () {
-  <!-- Populate course table-->
+  <!-- Populate staff table-->
   $.getJSON("staff_data/",function(result) {
     var table=document.getElementById("courses");
     $.each(result,function(key,value){
