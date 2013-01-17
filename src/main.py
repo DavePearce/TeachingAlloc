@@ -20,7 +20,7 @@ class Main(object):
     def __init__(self,root_url,username):
         self.root_url = root_url
         self.username = username
-        #self.data = filedb.Table("data/courses.dat",[])
+        self.data = filedb.Table("data/courses.dat",[])
     
     # gives access to images/
     def images(self, filename):
