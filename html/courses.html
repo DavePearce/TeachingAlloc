@@ -10,9 +10,10 @@ $(document).ready(function () {
        var row=table.insertRow(-1);
        row.insertCell(0).innerHTML=value.code;
        row.insertCell(1).innerHTML=value.number;
-       row.insertCell(2).innerHTML=value.trimester;
-       row.insertCell(3).innerHTML=value.expected;
-       row.insertCell(4).innerHTML=value.offered;
+       row.insertCell(2).innerHTML=value.title;
+       row.insertCell(3).innerHTML=value.trimester;
+       row.insertCell(4).innerHTML=value.expected;
+       row.insertCell(5).innerHTML=value.offered;
     });
   });
 });
@@ -28,6 +29,7 @@ $(document).ready(function () {
   <tr>
     <th>Code</th>
     <th>Number</th>
+    <th>Title</th>
     <th>Trimester</th>
     <th>Expected Enrolment</th>
     <th>Offered?</th>

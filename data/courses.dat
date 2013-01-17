@@ -1,0 +1,19 @@
+[
+	{"code": "COMP", "number": 102, "title": "Introduction to Computer Program Design", "trimester": 1, "expected": 350, "offered": true },
+	{"code": "COMP", "number": 102, "title": "Introduction to Computer Program Design", "trimester": 2, "expected": 50, "offered": true },
+	{"code": "COMP", "number": 103, "title": "Introduction to Data Structures and Algorithms", "trimester": 1, "expected": 100, "offered": true },
+	{"code": "COMP", "number": 103, "title": "Introduction to Data Structures and Algorithms", "trimester": 2, "expected": 150, "offered": true },
+	{"code": "COMP", "number": 261, "title": "Algorithms and Data Structures", "trimester": 2, "expected": 150, "offered": true },
+	{"code": "COMP", "number": 304, "title": "Programming Languages", "trimester": 1, "expected": 20, "offered": true },
+	{"code": "COMP", "number": 307, "title": "Introduction to Artificial Intelligence", "trimester": 1, "expected": 60, "offered": true },
+	{"code": "COMP", "number": 308, "title": "Introduction to Computer Graphics", "trimester": 2, "expected": 25, "offered": true },
+	{"code": "COMP", "number": 312, "title": "Simulation and Stochastic Models", "trimester": 1, "expected": 5, "offered": true },
+	{"code": "COMP", "number": 313, "title": "Computer Game Development", "trimester": 1, "expected": 25, "offered": true },
+	{"code": "COMP", "number": 408, "title": "Computer Graphics Rendering", "trimester": 1, "expected": 5, "offered": true },
+	{"code": "COMP", "number": 409, "title": "Three-Dimensional Modelling for Computer Graphics", "trimester": 2, "expected": 5, "offered": true },
+	{"code": "COMP", "number": 421, "title": "Machine Learning", "trimester": 1, "expected": 10, "offered": true },
+	{"code": "COMP", "number": 422, "title": "Data Mining, Neural Networks and Genetic Programming", "trimester": 2, "expected": 15, "offered": true }
+	{"code": "COMP", "number": 425, "title": "Computational Logic", "trimester": 2, "expected": 1, "offered": true }
+
+	
+]
