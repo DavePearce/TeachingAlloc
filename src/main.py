@@ -20,7 +20,8 @@ class Main(object):
     def __init__(self,root_url,username):
         self.root_url = root_url
         self.username = username
-        self.data = filedb.Table("data/courses.dat",[])
+        self.course_data = filedb.Table("data/courses.dat",[])
+        self.staff_data = filedb.Table("data/staff.dat",[])
     
     # gives access to images/
     def images(self, filename):
@@ -41,6 +42,10 @@ class Main(object):
         template = lookup.get_template("courses.html")
         return template.render(ROOT_URL=self.root_url)
     
+    def staff(self):
+        template = lookup.get_template("staff.html")
+        return template.render(ROOT_URL=self.root_url)
+    
     # application root
     def index(self):
         template = lookup.get_template("index.html")
@@ -49,6 +54,7 @@ class Main(object):
     # exposed
     index.exposed = True
     courses.exposed = True
+    staff.exposed = True
     images.exposed = True
     js.exposed = True
     css.exposed = True
