@@ -10,7 +10,7 @@ class Table(object):
         self.titles = titles
         self.exposed = True
         self.content = load(filename)
-    
+    #
     def index(self):
         return json.dumps(self.content)
     index.exposed = True
