@@ -20,7 +20,7 @@ import main
 # Run Local HTTP Server
 # ============================================================
 
-#cherrypy.quickstart(main.Main("http://localhost:8080","djp"))
+cherrypy.quickstart(main.Main("http://localhost:8080","djp"))
 
 root = main.Main("http://localhost:8080","djp")
 
@@ -34,4 +34,4 @@ conf = {
     }
 }
 
-cherrypy.quickstart(root, '/', conf)
+#cherrypy.quickstart(root, '/', conf)

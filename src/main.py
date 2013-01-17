@@ -20,18 +20,18 @@ class Main(object):
     def __init__(self,root_url,username):
         self.root_url = root_url
         self.username = username
-        self.data = filedb.Table("data/couses.py",[])
-        
+        #self.data = filedb.Table("data/courses.dat",[])
+    
     # gives access to images/
     def images(self, filename):
         abspath = os.path.abspath("images/" + filename)
         return serve_file(abspath, "image/png")
-
+    
     # gives access to js/
     def js(self, filename):
         abspath = os.path.abspath("js/" + filename)
         return serve_file(abspath, "application/javascript")
-
+    
     def css(self, filename):
         abspath = os.path.abspath("css/" + filename)
         return serve_file(abspath, "text/css")
@@ -44,7 +44,7 @@ class Main(object):
     # application root
     def index(self):
         template = lookup.get_template("index.html")
-        return template.render(ROOT_URL=self.root_url)
+        return template.render(ROOT_URL="")
     
     # exposed
     index.exposed = True
