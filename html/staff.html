@@ -9,7 +9,8 @@ $(document).ready(function () {
     $.each(result,function(key,value){
        var row=table.insertRow(-1);
        row.insertCell(0).innerHTML=value.name;
-       row.insertCell(1).innerHTML=Math.max(0,value.fte - (value.contract + value.leave));
+       row.insertCell(1).innerHTML=Math.max(0,value.fte - value.buyout
+- value.leave);
        row.insertCell(2).innerHTML=value.research;
        row.insertCell(3).innerHTML=value.teaching;
        row.insertCell(4).innerHTML=value.admin;
