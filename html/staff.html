@@ -14,11 +14,11 @@ $(document).ready(function () {
        else { row.id="even"; }
        counter++;
        row.insertCell(0).innerHTML=value.name;
-       row.insertCell(1).innerHTML=Math.max(0,value.fte - value.buyout
-- value.leave);
-       row.insertCell(2).innerHTML=value.research;
-       row.insertCell(3).innerHTML=value.teaching;
-       row.insertCell(4).innerHTML=value.admin;
+       row.insertCell(1).innerHTML=(Math.max(0,value.fte - value.buyout
+- value.leave)*100)+"%";
+       row.insertCell(2).innerHTML=(value.research*100)+"%";
+       row.insertCell(3).innerHTML=(value.teaching*100)+"%";
+       row.insertCell(4).innerHTML=(value.admin*100)+"%";
        row.insertCell(5).innerHTML=value.notes;
     });
   });
