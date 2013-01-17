@@ -1,13 +1,18 @@
 <%inherit file="base.html"/>
 
 <%def name="head()">
+<link href="${ROOT_URL}/css/staff.css" rel="stylesheet" type="text/css">
 <script type="text/JavaScript">
 $(document).ready(function () {
   <!-- Populate staff table-->
   $.getJSON("staff_data/",function(result) {
-    var table=document.getElementById("courses");
+    var table=document.getElementById("staff");
+    var counter=1;
     $.each(result,function(key,value){
        var row=table.insertRow(-1);
+       if (counter%2 == 1) { row.id="odd"; }
+       else { row.id="even"; }
+       counter++;
        row.insertCell(0).innerHTML=value.name;
        row.insertCell(1).innerHTML=Math.max(0,value.fte - value.buyout
 - value.leave);
@@ -26,7 +31,7 @@ $(document).ready(function () {
 
 <h1>Staff Listing</h1>
 <center>
-<table id="courses" border=0 width="80%">
+<table id="staff">
   <tr>
     <th>Name</th>
     <th>Effective FTE</th>

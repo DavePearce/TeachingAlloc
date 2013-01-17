@@ -1,0 +1,14 @@
+ #staff th {
+     background-color: #CCCCCC;
+ }
+ #staff th,td {
+  border: 1px solid black;
+  font-family: "Lucida Grande", "Trebuchet MS";
+  text-align: center;
+ } 
+
+ #staff #odd {
+  background-color: #FFFFD6;
+ }
+
+ 

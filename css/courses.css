@@ -1,0 +1,14 @@
+ #courses th {
+     background-color: #CCCCCC;
+ }
+ #courses th,td {
+  border: 1px solid black;
+  font-family: "Lucida Grande", "Trebuchet MS";
+  text-align: center;
+ } 
+
+ #courses #odd {
+  background-color: #FFFFD6;
+ }
+
+ 
