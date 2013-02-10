@@ -37,15 +37,21 @@ class Main(object):
         abspath = os.path.abspath("css/" + filename)
         return serve_file(abspath, "text/css")
     
-    # course listing page
+    # course view page
     def courses(self):
         template = lookup.get_template("courses.html")
         return template.render(ROOT_URL=self.root_url)
-    
+
+    # staff view page    
     def staff(self):
         template = lookup.get_template("staff.html")
         return template.render(ROOT_URL=self.root_url)
-    
+
+    # allocation view page    
+    def allocation(self):
+        template = lookup.get_template("allocation.html")
+        return template.render(ROOT_URL=self.root_url)
+        
     # application root
     def index(self):
         template = lookup.get_template("index.html")
@@ -55,6 +61,7 @@ class Main(object):
     index.exposed = True
     courses.exposed = True
     staff.exposed = True
+    allocation.exposed = True
     images.exposed = True
     js.exposed = True
     css.exposed = True

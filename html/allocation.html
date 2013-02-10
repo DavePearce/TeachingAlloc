@@ -1,0 +1,37 @@
+<%inherit file="base.html"/>
+
+<%def name="head()">
+<link href="${ROOT_URL}/css/staff.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+$(document).ready(function () {
+
+});
+</script>
+
+</%def>
+
+<%def name="body()">
+
+<h1>Teaching Allocation</h1>
+<center>
+<table id="staff-allocation">
+  <tr>
+    <th>Staff</th>
+    <th>Load</th>
+    <th>Allocation</th>
+  </tr>
+</table>
+</center>
+
+<center>
+<table id="course-allocation">
+  <tr>
+    <th>Course</th>
+    <th>Coverage</th>
+    <th>Allocation</th>
+  </tr>
+</table>
+</center>
+
+</%def>
+
