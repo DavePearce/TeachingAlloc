@@ -22,6 +22,7 @@ class Main(object):
         self.username = username
         self.course_data = filedb.Table("data/courses.dat",[])
         self.staff_data = filedb.Table("data/staff.dat",[])
+        self.allocation_data = filedb.Table("data/allocation.dat",[])
     
     # gives access to images/
     def images(self, filename):
