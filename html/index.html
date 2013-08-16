@@ -1,16 +1,91 @@
 <%inherit file="base.html"/>
 
-<%!
-   from courses import load
-%>
-
 <%def name="head()">
+<link href="${ROOT_URL}/css/staff.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+
+$(document).ready(function () {
+  <!-- Populate staff table-->
+  $.getJSON("../../../data/${YEAR}/staff",function(result) {
+    var table=document.getElementById("staff");
+    var counter=1;
+    $.each(result,function(key,value){
+       var row=table.insertRow(-1);
+       if (counter%2 == 1) { row.id="odd"; }
+       else { row.id="even"; }
+       counter++;
+       row.insertCell(0).innerHTML=value.name;
+       row.insertCell(1).innerHTML=(Math.max(0,value.fte - value.buyout
+- value.leave)*100)+"%";
+       row.insertCell(2).innerHTML=(value.research*100)+"%";
+       row.insertCell(3).innerHTML=(value.teaching*100)+"%";
+       row.insertCell(4).innerHTML=(value.admin*100)+"%";
+       row.insertCell(5).innerHTML=value.notes;
+    });
+  });
+
+  <!-- Populate staff-allocation table-->
+  $.getJSON("../../../data/${YEAR}/allocation",function(result) {
+    var table=document.getElementById("staff");
+    var counter=1;
+    $.each(result,function(key,value){
+       var row=table.insertRow(-1);
+       if (counter%2 == 1) { row.id="odd"; }
+       else { row.id="even"; }
+       counter++;
+       row.insertCell(0).innerHTML=value.name;
+       row.insertCell(1).innerHTML=(Math.max(0,value.fte - value.buyout
+- value.leave)*100)+"%";
+       row.insertCell(2).innerHTML=(value.research*100)+"%";
+       row.insertCell(3).innerHTML=(value.teaching*100)+"%";
+       row.insertCell(4).innerHTML=(value.admin*100)+"%";
+       row.insertCell(5).innerHTML=value.notes;
+    });
+  });
+
+  <!-- Populate course table-->
+  $.getJSON("../../../data/${YEAR}/courses",function(result) {
+    var table=document.getElementById("courses");
+    var counter = 1;
+    $.each(result,function(key,value){
+       var row=table.insertRow(-1);
+       if (counter%2 == 1) { row.id="odd"; }
+       else { row.id="even"; }
+       counter++;
+       row.insertCell(0).innerHTML=value.code;
+       row.insertCell(1).innerHTML=value.number;
+       row.insertCell(2).innerHTML=value.title;
+       row.insertCell(3).innerHTML=value.trimester;
+       row.insertCell(4).innerHTML=value.expected;
+       row.insertCell(5).innerHTML=value.offered;
+    });
+  });
+
+});
+
+$(function() { $( "#tabs" ).tabs();});
+</script>
+
 </%def>
 
 <%def name="body()">
 
-<h1>Welcome!</h1>
-${ROOT_URL}
-
+<h1>Teaching Allocation, ${YEAR}</h1>
+<div id="tabs">
+  <ul>
+    <li><a href="#tabs-alloc">Allocation</a></li>
+    <li><a href="#tabs-staff">Staff</a></li>
+    <li><a href="#tabs-courses">Courses</a></li>
+  </ul>
+<div id="tabs-alloc">
+  <%include file="allocation-tab.html"/>
+</div>
+<div id="tabs-staff">
+  <%include file="staff-tab.html"/>
+</div>
+<div id="tabs-courses">
+  <%include file="courses-tab.html"/>
+</div>
+</div>
 </%def>
 

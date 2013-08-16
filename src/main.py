@@ -37,7 +37,9 @@ class Main(object):
         return serve_file(abspath, "text/css")
     css.exposed = True
     
-    def view(self,year,table):
+    def view(self,year,table=None):
+        if table == None:
+            table = "index"
         template = lookup.get_template(table + ".html")
         return template.render(ROOT_URL=self.root_url,YEAR=year)        
     view.exposed = True
