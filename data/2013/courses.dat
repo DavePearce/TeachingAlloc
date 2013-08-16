@@ -1,0 +1,30 @@
+[
+	{"code": "COMP", "number": 112, "title": "Introduction to Computer Science", "trimester": 1, "expected": 100, "offered": true },
+	{"code": "COMP", "number": 261, "title": "Algorithms and Data Structures", "trimester": 1, "expected": 180, "offered": true },
+	{"code": "COMP", "number": 304, "title": "Programming Languages", "trimester": 1, "expected": 30, "offered": true },
+	{"code": "COMP", "number": 425, "title": "Computational Logic", "trimester": 2, "expected": 3, "offered": false },
+
+	{"code": "ENGR", "number": 101, "title": "Engineering Technology", "trimester": 1, "expected": 160, "offered": true },
+	{"code": "ENGR", "number": 101, "title": "Engineering Technology", "trimester": 2, "expected": 35, "offered": true },
+	{"code": "ENGR", "number": 110, "title": "Engineering Modelling", "trimester": 1, "expected": 150, "offered": true },
+
+	{"code": "SWEN", "number": 221, "title": "Software Development", "trimester": 1, "expected": 160, "offered": true },
+	{"code": "SWEN", "number": 222, "title": "Software Design", "trimester": 2, "expected": 115, "offered": true },
+	{"code": "SWEN", "number": 223, "title": "Software Engineering Analysis", "trimester": 1, "expected": 95, "offered": true },
+	{"code": "SWEN", "number": 224, "title": "Formal Foundations of Programming", "trimester": 2, "expected": 95, "offered": true },
+	{"code": "SWEN", "number": 301, "title": "Structured Methods", "trimester": 1, "expected": 40, "offered": true },
+	{"code": "SWEN", "number": 302, "title": "Agile Methods", "trimester": 2, "expected": 40, "offered": true },
+	{"code": "SWEN", "number": 303, "title": "User Interface Design", "trimester": 1, "expected": 55, "offered": true },
+	{"code": "SWEN", "number": 304, "title": "Database System Engineering", "trimester": 2, "expected": 60, "offered": true },
+	{"code": "NWEN", "number": 303, "title": "Concurrent Programming", "trimester": 2, "expected": 50, "offered": true },
+
+	{"code": "SWEN", "number": 421, "title": "Formal Software Engineering", "trimester": 1, "expected": 5, "offered": true },
+	{"code": "SWEN", "number": 422, "title": "Human Computer Interaction", "trimester": 1, "expected": 20, "offered": true },
+	{"code": "SWEN", "number": 423, "title": "Object-Oriented Paradigms", "trimester": 1, "expected": 20, "offered": true },
+	{"code": "SWEN", "number": 424, "title": "Model-Driven Development", "trimester": 2, "expected": 15, "offered": false },
+	{"code": "SWEN", "number": 425, "title": "Design Patterns", "trimester": 2, "expected": 15, "offered": true },
+	{"code": "SWEN", "number": 430, "title": "Compiler Engineering", "trimester": 2, "expected": 15, "offered": true },
+	{"code": "SWEN", "number": 431, "title": "Advanced Programming Languages", "trimester": 2, "expected": 5, "offered": true },
+	{"code": "SWEN", "number": 432, "title": "Advanced Database Design and Implementation", "trimester": 1, "expected": 10, "offered": true },
+	{"code": "SWEN", "number": 433, "title": "Web Information Systems Engineering", "trimester": 2, "expected": 20, "offered": true }
+]

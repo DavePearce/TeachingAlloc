@@ -4,29 +4,40 @@
 <link href="${ROOT_URL}/css/staff.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 
+function addRow(table,value) {
+  var row=table.insertRow(-1);
+  var length = table.rows.length;
+  if (length%2 == 1) { row.id="odd"; }
+  else { row.id="even"; }
+  for(i = 1; i < arguments.length;++i) {
+    row.insertCell(i-1).innerHTML=arguments[i];
+  }
+}
+
 $(document).ready(function () {
-  <!-- Populate staff table-->
+
+  <!-- ========================= -->
+  <!-- Populate staff table      -->
+  <!-- ========================= -->
+
   $.getJSON("../../../data/${YEAR}/staff",function(result) {
     var table=document.getElementById("staff");
-    var counter=1;
     $.each(result,function(key,value){
-       var row=table.insertRow(-1);
-       if (counter%2 == 1) { row.id="odd"; }
-       else { row.id="even"; }
-       counter++;
-       row.insertCell(0).innerHTML=value.name;
-       row.insertCell(1).innerHTML=(Math.max(0,value.fte - value.buyout
-- value.leave)*100)+"%";
-       row.insertCell(2).innerHTML=(value.research*100)+"%";
-       row.insertCell(3).innerHTML=(value.teaching*100)+"%";
-       row.insertCell(4).innerHTML=(value.admin*100)+"%";
-       row.insertCell(5).innerHTML=value.notes;
+      fte = (Math.max(0,value.fte - value.buyout - value.leave)*100)+"%";
+      research = (value.research*100)+"%";
+      teaching = (value.teaching*100)+"%";
+      admin = (value.admin*100)+"%";
+      addRow(table,value.name,fte,research,teaching,admin,value.notes);
     });
   });
 
+  <!-- ========================= -->
+  <!-- Populate allocation table -->
+  <!-- ========================= -->
+
   <!-- Populate staff-allocation table-->
   $.getJSON("../../../data/${YEAR}/allocation",function(result) {
-    var table=document.getElementById("staff");
+    var table=document.getElementById("staff-allocation");
     var counter=1;
     $.each(result,function(key,value){
        var row=table.insertRow(-1);

@@ -1,0 +1,11 @@
+[
+	{"name": "Lindsay Groves", "leave": 1.0, "fte": 1.0, "buyout": 0.0, "teaching": 0.5, "research": 0.4, "admin": 0.1, "msc": 0.0, "phd": 0.0, "notes": "Sabbatical (full-year)" },
+	{"name": "Thomas Khune", "leave": 1.0, "fte": 1.0, "buyout": 0.0, "teaching": 0.5, "research": 0.4, "admin": 0.1, "msc": 0.0, "phd": 0.0, "notes": "Sabbatical (full-year)" },
+	{"name": "Hui Ma", "leave": 0.0, "fte": 1.0, "buyout": 0.0, "teaching": 0.5, "research": 0.4, "admin": 0.1, "msc": 0.0, "phd": 0.0, "notes": "" },
+	{"name": "Stuart Marshall", "leave": 0.0, "fte": 1.0, "buyout": 0.0, "teaching": 0.5, "research": 0.4, "admin": 0.1, "msc": 0.0, "phd": 0.0, "notes": "" },
+	{"name": "James Noble", "leave": 0.0, "fte": 1.0, "buyout": 0.35, "teaching": 0.5, "research": 0.4, "admin": 0.1, "msc": 0.0, "phd": 0.0, "notes": "Marsden Grant" },
+	{"name": "David Pearce", "leave": 0.0, "fte": 1.0, "buyout": 0.35, "teaching": 0.5, "research": 0.4, "admin": 0.25, "msc": 0.0, "phd": 0.0, "notes": "SWEN Programme Director, Marsden Grant" },
+	{"name": "Alex Potanin", "leave": 0.0, "fte": 1.0, "buyout": 0.0, "teaching": 0.5, "research": 0.4, "admin": 0.1, "msc": 0.0, "phd": 0.0, "notes": "Postgraduate Co-ordinator (Shared)" },
+	{"name": "Marco Servetto", "leave": 0.0, "fte": 1.0, "buyout": 0.0, "teaching": 0.5, "research": 0.4, "admin": 0.1, "msc": 0.0, "phd": 0.0, "notes": "" },
+	{"name": "David Streader", "leave": 0.0, "fte": 1.0, "buyout": 0.0, "teaching": 0.5, "research": 0.4, "admin": 0.1, "msc": 0.0, "phd": 0.0, "notes": "" }
+]
