@@ -38,19 +38,15 @@ $(document).ready(function () {
   <!-- Populate staff-allocation table-->
   $.getJSON("../../../data/${YEAR}/allocation",function(result) {
     var table=document.getElementById("staff-allocation");
-    var counter=1;
     $.each(result,function(key,value){
-       var row=table.insertRow(-1);
-       if (counter%2 == 1) { row.id="odd"; }
-       else { row.id="even"; }
-       counter++;
-       row.insertCell(0).innerHTML=value.name;
-       row.insertCell(1).innerHTML=(Math.max(0,value.fte - value.buyout
-- value.leave)*100)+"%";
-       row.insertCell(2).innerHTML=(value.research*100)+"%";
-       row.insertCell(3).innerHTML=(value.teaching*100)+"%";
-       row.insertCell(4).innerHTML=(value.admin*100)+"%";
-       row.insertCell(5).innerHTML=value.notes;
+       addRow(table,value.name);
+<!--        row.insertCell(0).innerHTML=value.name; -->
+<!--        row.insertCell(1).innerHTML=(Math.max(0,value.fte - value.buyout -->
+<!-- - value.leave)*100)+"%"; -->
+<!--        row.insertCell(2).innerHTML=(value.research*100)+"%"; -->
+<!--        row.insertCell(3).innerHTML=(value.teaching*100)+"%"; -->
+<!--        row.insertCell(4).innerHTML=(value.admin*100)+"%"; -->
+<!--        row.insertCell(5).innerHTML=value.notes; -->
     });
   });
 
