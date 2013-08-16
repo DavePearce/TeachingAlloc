@@ -14,10 +14,3 @@ class Table(object):
     def index(self):
         return json.dumps(self.content)
     index.exposed = True
-
-# Load a given file representing a database table.
-def load(filename):
-    f = open(filename,"r")
-    data = json.load(f)
-    f.close()
-    return data
