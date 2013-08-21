@@ -17,6 +17,55 @@ function calculate_effective_fte(fte,buyout,leave) {
 }
 
 /**
+ * Calculate the load for a given course.  This is set at 1.0 for the
+ * normal case, and is adjusted for these criteria:
+ *
+ * 1) A large course is considered > 80 students, and given an
+ *    additional 0.15 loading.
+ * 
+ * 2) A new course is given a 100% additional loading in its first
+ *    year, and a 50% additional loading in its second.
+ */
+function calculate_course_load(course_record) {
+  // 
+  // FIXME: This calculation is incorrect!
+  //
+  if(course_record.expected >= 80) {
+     return 1.15;
+  } else {
+     return 1.0;
+  }
+}
+
+/**
+ * Calculate the teaching load for a given course allocation.
+ */
+function calculate_lecturing_load(allocation) {
+  var load = 0;
+  for(var i=0;i!=allocation.length;++i) {
+      var allocation_record = allocation[i];
+      var course_load = 1 * allocation_record.load;    
+      
+      if(allocation_record.coordinator) {
+	  // A standard course will be allocated a workload cost of 1.0
+	  // and an additional 0.1 will be given to the Course
+	  // Coordinator (C)
+	  course_load = course_load + 0.1;      
+      }
+      
+      load = load + course_load;
+  }
+
+  // NB: in calculation below, 3 for normal number of courses, 2
+  // because shared between supervision.
+  return load / (3*2);
+}
+
+function calculate_supervision_load(allocation) {
+  return 0.5;
+}
+
+/**
  * Calculate the allocation of courses to individual staff members,
  * including their current workload allocation.
  */
@@ -34,7 +83,7 @@ function calculate_staff_allocation(allocation_records) {
      if(!(staff_name in staff_records)) {
          // first time this staff member encountered, so create empty
          // record.
-         staff_records[staff_name] = { name: staff_name, load: 0.0, allocation: [] };
+         staff_records[staff_name] = { name: staff_name, allocation: [] };
      } 
      // Add this course to staff members allocations arrays
      var staff_record = staff_records[staff_name];
@@ -45,7 +94,10 @@ function calculate_staff_allocation(allocation_records) {
   var sorted_records = [];
   var count = 0;
   for(var staff_name in staff_records) {
-     sorted_records[count++] = staff_records[staff_name];
+      var staff_record = staff_records[staff_name];
+      staff_record.teaching_load = calculate_lecturing_load(staff_record.allocation);
+      staff_record.supervision_load = calculate_supervision_load();
+      sorted_records[count++] = staff_record;
   }
   // done
   return sorted_records;

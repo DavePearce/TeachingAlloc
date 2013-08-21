@@ -42,7 +42,10 @@ $(document).ready(function () {
     var staff_allocation = calculate_staff_allocation(result);
     var table = document.getElementById("staff-allocation");
     $.each(staff_allocation,function(key,value){       
-       addRow(table,value.name,value.load,to_allocation_string(value.allocation));
+       var load = Math.round((value.teaching_load + value.supervision_load) * 100);
+       var supervision = Math.round(value.supervision_load * 100);
+       var teaching = Math.round(value.teaching_load * 100);
+       addRow(table,value.name,load + "% (" + teaching + "+" + supervision + ")",to_allocation_string(value.allocation));
     });
     var course_allocation = calculate_course_allocation(result);
     table = document.getElementById("course-allocation");
