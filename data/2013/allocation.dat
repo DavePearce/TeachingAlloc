@@ -1,6 +1,7 @@
 [
 	{"name": "George Allan", "course": "ENGR302", "load": 0.5, "coordinator": false},
 	{"name": "David J. Pearce", "course": "SWEN221", "load": 0.5, "coordinator": true},
+	{"name": "Marco Servetto", "course": "SWEN221", "load": 0.5, "coordinator": false},
 	{"name": "David J. Pearce", "course": "SWEN222", "load": 0.5, "coordinator": true},
 	{"name": "George Allan", "course": "ENGR301", "load": 0.5, "coordinator": true}
 ]

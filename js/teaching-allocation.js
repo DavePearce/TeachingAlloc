@@ -74,6 +74,7 @@ function calculate_course_allocation(allocation_records) {
      // Add this course to staff members allocations arrays
      var course_record = course_records[course_name];
      course_record.allocation.push({name: staff_name, load: course_load, coordinator: course_coordinator});
+     course_record.load += course_load;
   }
 
   // Second, flatten into an array and sort
