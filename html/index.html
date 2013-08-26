@@ -5,52 +5,14 @@
 <script type="text/javascript" src="${ROOT_URL}/js/teaching-allocation.js"></script>
 <script type="text/javascript">
 
-function addRow(table,value) {
-  var row=table.insertRow(-1);
-  var length = table.rows.length;
-  if (length%2 == 1) { row.id="odd"; }
-  else { row.id="even"; }
-  for(i = 1; i < arguments.length;++i) {
-    row.insertCell(i-1).innerHTML=arguments[i];
-  }
-}
-
 $(document).ready(function () {
-
-  <!-- Populate staff table      -->
-  $.getJSON("../../../data/${YEAR}/staff",function(result) {
-    var table = document.getElementById("staff");
-    $.each(result,function(key,value){
-      fte = (calculate_effective_fte(value.fte,value.buyout,value.leave) * 100) + "%";
-      research = (value.research*100)+"%";
-      teaching = (value.teaching*100)+"%";
-      admin = (value.admin*100)+"%";
-      addRow(table,value.name,fte,research,teaching,admin,value.notes);
-    });
-  });
-
-  <!-- Populate course table-->
-  $.getJSON("../../../data/${YEAR}/courses",function(result) {
-    var table = document.getElementById("courses");
-    $.each(result,function(key,value){
-       addRow(table,value.code,value.number,value.title,value.trimester,value.expected,value.offered);
-    });
-  });
-
-  <!-- Populate allocation tables-->
-  $.getJSON("../../../data/${YEAR}/allocation",function(result) {
-    var staff_allocation = calculate_staff_allocation(result);
-    var table = document.getElementById("staff-allocation");
-    $.each(staff_allocation,function(key,value){       
-       var load = Math.round((value.teaching_load + value.supervision_load) * 100);
-       var supervision = Math.round(value.supervision_load * 100);
-       var teaching = Math.round(value.teaching_load * 100);
-       addRow(table,value.name,load + "% (" + teaching + "+" + supervision + ")",to_allocation_string(value.allocation));
-    });
-    var course_allocation = calculate_course_allocation(result);
-    table = document.getElementById("course-allocation");
-    $.each(course_allocation,function(key,value){       
-       addRow(table,value.name,value.load,to_allocation_string(value.allocation));
+  $.getJSON("../../../data/${YEAR}/staff",function(staff) {
+    $.getJSON("../../../data/${YEAR}/courses",function(courses) {
+      $.getJSON("../../../data/${YEAR}/supervision",function(supervision) {
+        $.getJSON("../../../data/${YEAR}/allocation",function(allocation) {
+           populateTables(staff,courses,supervision,allocation);
+        });
+      });
     });
   });
 });
@@ -68,6 +30,7 @@ $(function() { $( "#tabs" ).tabs();});
     <li><a href="#tabs-alloc">Allocation</a></li>
     <li><a href="#tabs-staff">Staff</a></li>
     <li><a href="#tabs-courses">Courses</a></li>
+    <li><a href="#tabs-supervision">Supervision</a></li>
   </ul>
 <div id="tabs-alloc">
   <%include file="allocation-tab.html"/>
@@ -77,6 +40,9 @@ $(function() { $( "#tabs" ).tabs();});
 </div>
 <div id="tabs-courses">
   <%include file="courses-tab.html"/>
+</div>
+<div id="tabs-supervision">
+  <%include file="supervision-tab.html"/>
 </div>
 </div>
 </%def>

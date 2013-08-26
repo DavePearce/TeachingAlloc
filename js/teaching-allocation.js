@@ -5,6 +5,9 @@
  * By David J. Pearce, 2013
  */
 
+// ===============================================================
+// Load Calculations
+// ===============================================================
 
 /**
  * Calculate the effective FTE of a staff member.  This is determined
@@ -139,6 +142,10 @@ function calculate_course_allocation(allocation_records) {
   return sorted_records;
 }
 
+// ===============================================================
+// GUI Helpers
+// ===============================================================
+
 /**
  * Convert an array of allocation records into a sensible string
  */
@@ -155,3 +162,76 @@ function to_allocation_string(records) {
   }
   return result;
 }
+
+/**
+ * Add a row of data to a given HTML table, whilst ensuring this is
+ * properly annotated with an ID to ensure correct CSS styling
+ * (e.g. that rows have alternativing colours, etc). 
+ */
+function addRow(table,value) {
+  var row=table.insertRow(-1);
+  var length = table.rows.length;
+  if (length%2 == 1) { row.id="odd"; }
+  else { row.id="even"; }
+  for(i = 1; i < arguments.length;++i) {
+    row.insertCell(i-1).innerHTML=arguments[i];
+  }
+}
+
+/**
+ * The master function which is responsible for populating the various
+ * tables in the html document.  This accepts the four data items,
+ * which are:
+ *
+ * 1) List of staff and their details (e.g. FTE, etc)
+ *
+ * 2) List of courses and their details (e.g. estimated enrollements,
+ * etc))
+ *
+ * 3) List of postgraduate students and their details (e.g. degree,
+ * supervisors, etc)
+ *
+ * 4) List of allocations where reach record allocates a given staff
+ * member to a given course.
+ */
+function populateTables(staff,courses,supervision,allocation) {
+
+    // First, populate the staff table
+    var staffTable = document.getElementById("staff");
+    $.each(staff,function(key,value){
+      fte = (calculate_effective_fte(value.fte,value.buyout,value.leave) * 100) + "%";
+      research = (value.research*100)+"%";
+      teaching = (value.teaching*100)+"%";
+      admin = (value.admin*100)+"%";
+      addRow(staffTable,value.name,fte,research,teaching,admin,value.notes);
+    });
+
+    // Second, populate the course table
+    var courseTable = document.getElementById("courses");
+    $.each(courses,function(key,value){
+       addRow(courseTable,value.code,value.number,value.title,value.trimester,value.expected,value.offered);
+    });
+
+    // Third, populate the supervision table
+    var supervisionTable = document.getElementById("supervision");
+    $.each(supervision,function(key,value){
+       addRow(supervisionTable,value.name,value.degree,value.supervisors);
+    });
+
+    // Fourth, populate the allocation table
+    var staff_allocation = calculate_staff_allocation(allocation);
+    var allocationTable = document.getElementById("staff-allocation");
+    $.each(staff_allocation,function(key,value){       
+       var load = Math.round((value.teaching_load + value.supervision_load) * 100);
+       var supervision = Math.round(value.supervision_load * 100);
+       var teaching = Math.round(value.teaching_load * 100);
+       addRow(allocationTable,value.name,load + "% (" + teaching + "+" + supervision + ")",to_allocation_string(value.allocation));
+    });
+    var course_allocation = calculate_course_allocation(allocation);
+    allocationTable = document.getElementById("course-allocation");
+    $.each(course_allocation,function(key,value){       
+       addRow(allocationTable,value.name,value.load,to_allocation_string(value.allocation));
+    });
+}
+
+

@@ -1,3 +1,7 @@
+/* ====================================================== */
+/* Page Layout */
+/* ====================================================== */
+
  p { color:#009900; font-family:"comic sans ms",sans-serif; } 
  html,body { height:100% }
  body { 
@@ -39,17 +43,28 @@
  #content h1 { margin: 0 0 20 0px; font-size: 22pt; font-weight: normal; }
  #content h2 { margin: 0 0 10 0; font-size: 14pt; font-weight: normal; }
 
- th {
+/* ====================================================== */
+/* Display Tables (Generic) */
+/* ====================================================== */
+
+ table.data {
+    width: 100%;
+ }
+ table.data th {
      background-color: #CCCCCC;
  }
- th,td {
+ table.data th,td {
   border: 1px solid black;
   font-family: "Lucida Grande", "Trebuchet MS";
   text-align: center;
  } 
 
- #odd {
+ table.data #odd {
   background-color: #FFFFD6;
  }
 
- 
+/* ====================================================== */
+/* Allocation Tab */
+/* ====================================================== */
+
+
