@@ -110,36 +110,39 @@ function calculate_staff_allocation(allocation_records) {
  * Calculate the allocation of staff to individual courses, including
  * their current workload allocation.
  */
-function calculate_course_allocation(allocation_records) {
-  var course_records = {};
+function calculate_course_allocation(allocation_records,courses) {
+    var course_records = {};
+    
+    // First, initialise course records
+    for(var i=0;i!=courses.length;++i) {
+    	var course_id = courses[i].id;
+    	course_records[course_id] = { name: course_id, load: 0.0, allocation: [] };
+    }
 
-  // First, merge records together for each course.
-  for(var i=0;i!=allocation_records.length;i=i+1) {
-     var allocation_record = allocation_records[i];
-     var staff_name = allocation_record.name;
-     var course_name = allocation_record.course;
-     var course_load = allocation_record.load;
-     var course_coordinator = allocation_record.coordinator;
+    // Second, merge records together for each course.
+    for(var i=0;i!=allocation_records.length;i=i+1) {
+	var allocation_record = allocation_records[i];
+	var staff_name = allocation_record.name;
+	var course_id = allocation_record.course;
+	var course_load = allocation_record.load;
+	var course_coordinator = allocation_record.coordinator;
 
-     if(!(course_name in course_records)) {
-         // first time this staff member encountered, so create empty
-         // record.
-         course_records[course_name] = { name: course_name, load: 0.0, allocation: [] };
-     } 
-     // Add this course to staff members allocations arrays
-     var course_record = course_records[course_name];
-     course_record.allocation.push({name: staff_name, load: course_load, coordinator: course_coordinator});
-     course_record.load += course_load;
-  }
-
-  // Second, flatten into an array and sort
-  var sorted_records = [];
-  var count = 0;
-  for(var course_name in course_records) {
-     sorted_records[count++] = course_records[course_name];
-  }
-  // done
-  return sorted_records;
+	if(course_id in course_records) {
+	    // sanity check course actually registered
+	    var course_record = course_records[course_id];
+	    course_record.allocation.push({name: staff_name, load: course_load, coordinator: course_coordinator});
+	    course_record.load += course_load;
+	} 
+    }
+    
+    // Third, flatten into an array and sort
+    var sorted_records = [];
+    var count = 0;
+    for(var course_name in course_records) {
+	sorted_records[count++] = course_records[course_name];
+    }
+    // done
+    return sorted_records;
 }
 
 // ===============================================================
@@ -220,6 +223,8 @@ function populateTables(staff,courses,supervision,allocation) {
 
     // Fourth, populate the allocation table
     var staff_allocation = calculate_staff_allocation(allocation);
+    var course_allocation = calculate_course_allocation(allocation,courses);
+
     var allocationTable = document.getElementById("staff-allocation");
     $.each(staff_allocation,function(key,value){       
        var load = Math.round((value.teaching_load + value.supervision_load) * 100);
@@ -227,7 +232,6 @@ function populateTables(staff,courses,supervision,allocation) {
        var teaching = Math.round(value.teaching_load * 100);
        addRow(allocationTable,value.name,load + "% (" + teaching + "+" + supervision + ")",to_allocation_string(value.allocation));
     });
-    var course_allocation = calculate_course_allocation(allocation);
     allocationTable = document.getElementById("course-allocation");
     $.each(course_allocation,function(key,value){       
        addRow(allocationTable,value.name,value.load,to_allocation_string(value.allocation));
