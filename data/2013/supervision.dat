@@ -1,4 +1,4 @@
 [
-	{"name": "Roman Klapaukh", "degree": "PhD", "supervisors": [ {"name": "David J. Pearce", "load": 0.5}, {"name": "Stuart Marshall", "load": 0.5} ] },
-	{"name": "Michael Homer", "degree": "PhD", "supervisors": [ {"name": "James Noble", "load": 0.5}, {"name": "David J. Pearce", "load": 0.5} ] }
+	{"supervisor": "David Pearce", "student": "Roman Klapaukh", "load": 0.5 },
+	{"supervisor": "Stuart Marshall", "student": "Roman Klapaukh", "load": 0.5 }
 ]

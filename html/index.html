@@ -8,32 +8,43 @@
 $(document).ready(function () {
   $.getJSON("../../../data/${YEAR}/staff",function(staff) {
     $.getJSON("../../../data/${YEAR}/courses",function(courses) {
-      $.getJSON("../../../data/${YEAR}/supervision",function(supervision) {
-        $.getJSON("../../../data/${YEAR}/allocation",function(allocation) {
-           populateTables(staff,courses,supervision,allocation);
+      $.getJSON("../../../data/${YEAR}/students",function(students) {
+        $.getJSON("../../../data/${YEAR}/supervision",function(supervision) {
+          $.getJSON("../../../data/${YEAR}/teaching",function(teaching) {
+            populateTables(staff,courses,students,supervision,teaching);
+          });
         });
       });
     });
   });
+
+  $("#tabs").tabs();
 });
 
-$(function() { $( "#tabs" ).tabs();});
 </script>
 
 </%def>
 
 <%def name="body()">
 
-<h1>Teaching Allocation, ${YEAR}</h1>
+<h1>${YEAR}</h1>
 <div id="tabs">
   <ul>
-    <li><a href="#tabs-alloc">Allocation</a></li>
+    <li><a href="#tabs-summary">Summary</a></li>
+    <li><a href="#tabs-teaching">Teaching</a></li>
+    <li><a href="#tabs-supervision">Supervision</a></li>    
     <li><a href="#tabs-staff">Staff</a></li>
     <li><a href="#tabs-courses">Courses</a></li>
-    <li><a href="#tabs-supervision">Supervision</a></li>
+    <li><a href="#tabs-students">Students</a></li>
   </ul>
-<div id="tabs-alloc">
-  <%include file="allocation-tab.html"/>
+<div id="tabs-summary">
+  <%include file="summary-tab.html"/>
+</div>
+<div id="tabs-teaching">
+  <%include file="teaching-tab.html"/>
+</div>
+<div id="tabs-supervision">
+  <%include file="supervision-tab.html"/>
 </div>
 <div id="tabs-staff">
   <%include file="staff-tab.html"/>
@@ -41,8 +52,8 @@ $(function() { $( "#tabs" ).tabs();});
 <div id="tabs-courses">
   <%include file="courses-tab.html"/>
 </div>
-<div id="tabs-supervision">
-  <%include file="supervision-tab.html"/>
+<div id="tabs-students">
+  <%include file="students-tab.html"/>
 </div>
 </div>
 </%def>
