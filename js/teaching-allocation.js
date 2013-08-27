@@ -72,38 +72,41 @@ function calculate_supervision_load(allocation) {
  * Calculate the allocation of courses to individual staff members,
  * including their current workload allocation.
  */
-function calculate_staff_allocation(allocation_records) {
-  var staff_records = {};
+function calculate_staff_allocation(allocation_records,staff) {
+    var staff_records = {};
 
-  // First, merge records together for each staff member.
-  for(var i=0;i!=allocation_records.length;i=i+1) {
-     var allocation_record = allocation_records[i];
-     var staff_name = allocation_record.name;
-     var course_name = allocation_record.course;
-     var course_load = allocation_record.load;
-     var course_coordinator = allocation_record.coordinator;
+    // First, initialise staff records
+    for(var i=0;i!=staff.length;++i) {
+    	var staff_name = staff[i].name;
+    	staff_records[staff_name] = { name: staff_name, allocation: [] };
+    }
 
-     if(!(staff_name in staff_records)) {
-         // first time this staff member encountered, so create empty
-         // record.
-         staff_records[staff_name] = { name: staff_name, allocation: [] };
-     } 
-     // Add this course to staff members allocations arrays
-     var staff_record = staff_records[staff_name];
-     staff_record.allocation.push({name: course_name, load: course_load, coordinator: course_coordinator});
-  }
+    // Second, merge records together for each staff member.
+    for(var i=0;i!=allocation_records.length;i=i+1) {
+	var allocation_record = allocation_records[i];
+	var staff_name = allocation_record.name;
+	var course_name = allocation_record.course;
+	var course_load = allocation_record.load;
+	var course_coordinator = allocation_record.coordinator;	
 
-  // Second, flatten into an array and sort
-  var sorted_records = [];
-  var count = 0;
-  for(var staff_name in staff_records) {
-      var staff_record = staff_records[staff_name];
-      staff_record.teaching_load = calculate_lecturing_load(staff_record.allocation);
-      staff_record.supervision_load = calculate_supervision_load();
-      sorted_records[count++] = staff_record;
-  }
-  // done
-  return sorted_records;
+	if(staff_name in staff_records) {
+	    // Sanity check staff member actually registered
+	    var staff_record = staff_records[staff_name];
+	    staff_record.allocation.push({name: course_name, load: course_load, coordinator: course_coordinator});
+	}
+    }
+    
+    // Third, flatten into an array and sort
+    var sorted_records = [];
+    var count = 0;
+    for(var staff_name in staff_records) {
+	var staff_record = staff_records[staff_name];
+	staff_record.teaching_load = calculate_lecturing_load(staff_record.allocation);
+	staff_record.supervision_load = calculate_supervision_load();
+	sorted_records[count++] = staff_record;
+    }
+    // done
+    return sorted_records;
 }
 
 /**
@@ -128,7 +131,7 @@ function calculate_course_allocation(allocation_records,courses) {
 	var course_coordinator = allocation_record.coordinator;
 
 	if(course_id in course_records) {
-	    // sanity check course actually registered
+	    // Sanity check course actually registered
 	    var course_record = course_records[course_id];
 	    course_record.allocation.push({name: staff_name, load: course_load, coordinator: course_coordinator});
 	    course_record.load += course_load;
@@ -222,9 +225,9 @@ function populateTables(staff,courses,supervision,allocation) {
     });
 
     // Fourth, populate the allocation table
-    var staff_allocation = calculate_staff_allocation(allocation);
+    var staff_allocation = calculate_staff_allocation(allocation,staff);
     var course_allocation = calculate_course_allocation(allocation,courses);
-
+        
     var allocationTable = document.getElementById("staff-allocation");
     $.each(staff_allocation,function(key,value){       
        var load = Math.round((value.teaching_load + value.supervision_load) * 100);
@@ -232,6 +235,7 @@ function populateTables(staff,courses,supervision,allocation) {
        var teaching = Math.round(value.teaching_load * 100);
        addRow(allocationTable,value.name,load + "% (" + teaching + "+" + supervision + ")",to_allocation_string(value.allocation));
     });
+
     allocationTable = document.getElementById("course-allocation");
     $.each(course_allocation,function(key,value){       
        addRow(allocationTable,value.name,value.load,to_allocation_string(value.allocation));
