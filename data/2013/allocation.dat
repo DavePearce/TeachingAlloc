@@ -9,6 +9,16 @@
 	{"name": "Alex Potanin", "course": "COMP361", "load": 1.0, "coordinator": true},
 	{"name": "Alex Potanin", "course": "SWEN430", "load": 0.5, "coordinator": false},
 
+	{"name": "Stuart Marshall", "course": "SWEN303", "load": 1.0, "coordinator": true},
+	{"name": "Stuart Marshall", "course": "COMP313", "load": 0.5, "coordinator": true},
+	{"name": "Stuart Marshall", "course": "ENGR101T1", "load": 0.3, "coordinator": false},
+	{"name": "Stuart Marshall", "course": "ENGR101T2", "load": 0.3, "coordinator": false},
+	{"name": "Stuart Marshall", "course": "SWEN422", "load": 1.0, "coordinator": true},
+
+	{"name": "James Noble", "course": "SWEN223", "load": 1.0, "coordinator": true},
+	{"name": "James Noble", "course": "SWEN223", "load": 1.0, "coordinator": true},
+	
+
 	{"name": "David Streader", "course": "COMP102", "load": 0.5, "coordinator": false},
 	{"name": "David Streader", "course": "COMP112", "load": 0.5, "coordinator": false},
 	{"name": "David Streader", "course": "SWEN224", "load": 1.0, "coordinator": true},
