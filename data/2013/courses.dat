@@ -4,8 +4,8 @@
 	{"id": "COMP304", "title": "Programming Languages", "trimester": 1, "expected": 30, "offered": true },
 	{"id": "COMP425", "title": "Computational Logic", "trimester": 2, "expected": 3, "offered": false },
 
-	{"id": "ENGR101", "title": "Engineering Technology", "trimester": 1, "expected": 160, "offered": true },
-	{"id": "ENGR101", "title": "Engineering Technology", "trimester": 2, "expected": 35, "offered": true },
+	{"id": "ENGR101a", "title": "Engineering Technology", "trimester": 1, "expected": 160, "offered": true },
+	{"id": "ENGR101b", "title": "Engineering Technology", "trimester": 2, "expected": 35, "offered": true },
 	{"id": "ENGR110", "title": "Engineering Modelling", "trimester": 1, "expected": 150, "offered": true },
 
 	{"id": "SWEN221", "title": "Software Development", "trimester": 1, "expected": 160, "offered": true },
@@ -24,7 +24,7 @@
 	{"id": "SWEN424", "title": "Model-Driven Development", "trimester": 2, "expected": 15, "offered": false },
 	{"id": "SWEN425", "title": "Design Patterns", "trimester": 2, "expected": 15, "offered": true },
 	{"id": "SWEN430", "title": "Compiler Engineering", "trimester": 2, "expected": 15, "offered": true },
-	{"id": "SWEN431", "title": "Advanced Programming Languages", "trimester": 2, "expected": 5, "offered": true },
+	{"id": "SWEN431", "title": "Advanced Programming Languages", "trimester": 2, "expected": 5, "offered": false },
 	{"id": "SWEN432", "title": "Advanced Database Design and Implementation", "trimester": 1, "expected": 10, "offered": true },
 	{"id": "SWEN433", "title": "Web Information Systems Engineering", "trimester": 2, "expected": 20, "offered": true }
 ]

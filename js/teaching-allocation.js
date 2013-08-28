@@ -138,7 +138,8 @@ function calculate_staff_supervision(supervision_records,staff) {
 
 /**
  * Calculate the allocation of staff to individual courses, including
- * their current workload allocation.
+ * their current workload allocation.  Note that courses which are not
+ * offered are ignored.
  */
 function calculate_course_allocation(allocation_records,courses) {
     var course_records = {};
@@ -146,7 +147,9 @@ function calculate_course_allocation(allocation_records,courses) {
     // First, initialise course records
     for(var i=0;i!=courses.length;++i) {
     	var course_id = courses[i].id;
-    	course_records[course_id] = { name: course_id, load: 0.0, allocation: [] };
+	if(courses[i].offered) {
+    	    course_records[course_id] = { name: course_id, load: 0.0, allocation: [] };
+	}
     }
 
     // Second, merge records together for each course.
