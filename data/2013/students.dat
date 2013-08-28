@@ -1,4 +1,12 @@
 [
+	{"name": "Michael Homer", "degree": "PhD" },
+	{"name": "Timothy Jones", "degree": "PhD" },
 	{"name": "Roman Klapaukh", "degree": "PhD" },
-	{"name": "Michael Homer", "degree": "PhD" }
+	{"name": "Paley Li", "degree": "PhD" },
+	{"name": "Mawarny Rejab", "degree": "PhD" },
+	{"name": "Michael Waterman", "degree": "PhD" },
+	{"name": "Devi Rajkumari", "degree": "PhD" },
+	{"name": "Pakapan Limtrairut", "degree": "PhD" },
+	{"name": "Vahid Arabnezad", "degree": "PhD" },
+	{"name": "Paran Haslett", "degree": "MSc" }
 ]
