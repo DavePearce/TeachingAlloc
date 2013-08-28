@@ -6,6 +6,52 @@
  */
 
 // ===============================================================
+// Constants
+// ===============================================================
+
+/**
+ * The base workload sets the expected number of effective courses
+ * taught by a member of staff on 50% teaching allocation (which is
+ * the norm).  Observe that supervision counts towards the number of
+ * effective courses taught.
+ */
+BASE_WORKLOAD = 4;
+
+/**
+ * The number of post graduate supervisions which is equivalent to one
+ * course is set by this constant.  Thus, a staff member who is
+ * supervising this number of post-graduate students will have to
+ * teach one less course.
+ */
+POSTGRADS_PER_COURSE = 2.5;
+
+/**
+ * The maximum number of post-graduate supervisions which will be
+ * counted towards teaching buy out.  This is intended to ensure that
+ * supervising lots of students does not completely buy one out from
+ * teaching.
+ */
+MAX_POSTGRAD_BUYOUT = 3.5;
+
+/**
+ * The large course mark identifies the number of students required
+ * for a course to be given the "large course" modifier.  This
+ * modifier increases the cost of teaching such a course, and is
+ * intended to give additional weighting to courses with high numbers
+ * of students.
+ */
+LARGE_COURSE_MARK = 80;
+
+/**
+ * The small course mark identifies the number of students below which
+ * a course will be given the "small course" modifier.  This modifier
+ * decreases the cost of teaching such a course, and is intended to
+ * account for the relative ease of teaching a course with very few
+ * students.
+ */
+SMALL_COURSE_MARK = 10;
+
+// ===============================================================
 // Load Calculations
 // ===============================================================
 
@@ -33,7 +79,7 @@ function calculate_course_load(course_record) {
   // 
   // FIXME: This calculation is incorrect!
   //
-  if(course_record.expected >= 80) {
+  if(course_record.expected >= LARGE_COURSE_MARK) {
      return 1.15;
   } else {
      return 1.0;
@@ -44,24 +90,34 @@ function calculate_course_load(course_record) {
  * Calculate the teaching load for a given course allocation.
  */
 function calculate_teaching_load(allocation) {
-  var load = 0;
-  for(var i=0;i!=allocation.length;++i) {
-      var allocation_record = allocation[i];
-      var course_load = 1 * allocation_record.load;    
-      
-      if(allocation_record.coordinator) {
-	  // A standard course will be allocated a workload cost of 1.0
-	  // and an additional 0.1 will be given to the Course
-	  // Coordinator (C)
-	  course_load = course_load + 0.1;      
-      }
-      
-      load = load + course_load;
-  }
+    var load = 0;
+    for(var i=0;i!=allocation.length;++i) {
+	var allocation_record = allocation[i];
+	var course_load = allocation_record.load;    
+	
+	if(allocation_record.coordinator) {
+	    // A standard course will be allocated a workload cost of 1.0
+	    // and an additional 0.1 will be given to the Course
+	    // Coordinator (C)
+	    course_load = course_load + 0.1;      
+	}
 
-    // NB: in calculation below, 4 because base workload is 4 courses
-    // and 2 because this should give teaching at 50%.
-    return load / (4 * 2);
+	if(allocation_record.new2course) {
+            // New Lectures (NL) to a course are given a 50%
+            // additional weighting.
+            course_load = course_load * 1.5;
+	}
+
+	if(allocation_record.newstaff) {
+            // New Staff (NS) are given a 50% additional weighting.
+            course_load = course_load * 1.5;
+	}
+	
+	load = load + course_load;
+    }
+    
+    // NB: Times 2 because this should give teaching at 50%.
+    return load / (BASE_WORKLOAD * 2);
 }
 
 function calculate_supervision_load(allocation) {
@@ -70,12 +126,11 @@ function calculate_supervision_load(allocation) {
     for(var i=0;i!=allocation.length;++i) {
 	var allocation_record = allocation[i];
 	var supervision_load = allocation_record.load;          
-	// 2.5PG is equivalent to one course
 	load = load + supervision_load;
     }
     
-    // NB: max supervision is 2.5PG
-    return Math.min(load,3.5) / (2.5 * 4 * 2);
+    // NB: Times 2 because this should give teaching at 50%.
+    return Math.min(load,MAX_POSTGRAD_BUYOUT) / (POSTGRADS_PER_COURSE * BASE_WORKLOAD * 2);
 }
 
 /**
@@ -98,11 +153,14 @@ function calculate_staff_allocation(allocation_records,staff) {
 	var course_name = allocation_record.course;
 	var course_load = allocation_record.load;
 	var course_coordinator = allocation_record.coordinator;	
+	var staff_new2course = allocation_record["new"];
+	var course_new = false; // FIXME
 
 	if(staff_name in staff_records) {
 	    // Sanity check staff member actually registered
 	    var staff_record = staff_records[staff_name];
-	    staff_record.allocation.push({name: course_name, load: course_load, coordinator: course_coordinator});
+	    var staff_new = staff_record["new"];
+	    staff_record.allocation.push({name: course_name, load: course_load, coordinator: course_coordinator, "newcourse": course_new, "new2course": staff_new2course, "newstaff": staff_new});
 	}
     }
     return staff_records;
@@ -160,11 +218,14 @@ function calculate_course_allocation(allocation_records,courses) {
 	var course_id = allocation_record.course;
 	var course_load = allocation_record.load;
 	var course_coordinator = allocation_record.coordinator;
+	var staff_new2course = allocation_record["new"];
+	var staff_new = false; // FIXME
 
 	if(course_id in course_records) {
 	    // Sanity check course actually registered
 	    var course_record = course_records[course_id];
-	    course_record.allocation.push({name: staff_name, load: course_load, coordinator: course_coordinator});
+	    var course_new = course_record["new"];
+	    course_record.allocation.push({name: staff_name, load: course_load, coordinator: course_coordinator, "newcourse": course_new, "new2course": staff_new2course});
 	    course_record.load += course_load;
 	} 
     }
@@ -183,11 +244,20 @@ function to_allocation_string(records) {
   for(var i=0;i!=records.length;++i) {
     if(i != 0) { result = result + ", "; }
     var record = records[i];
-    result = result + record.name;
-    if("coordinator" in record && record.coordinator) {
-       result = result + "*";
+    result = result + record.name + " (";
+    if("new2course" in record && record["new2course"]) {
+       result = result + "NC,";
     }
-    result = result + " (" + (record.load * 100) + "%)";   
+    if("new2course" in record && record["new2course"]) {
+       result = result + "NL,";
+    }
+    if("newstaff" in record && record["newstaff"]) {
+       result = result + "NS,";
+    }
+    if("coordinator" in record && record.coordinator) {
+       result = result + "CC,";
+    }
+    result = result + " " + (record.load * 100) + "%)";   
   }
   return result;
 }
@@ -238,17 +308,26 @@ function populateTables(staff,courses,students,supervision,allocation) {
 	       research,
 	       teaching,
 	       admin,
+	       value["new"],
 	       value.notes);
     });
     
     // Second, populate the course table
     var courseTable = document.getElementById("courses");
     $.each(courses,function(key,value){
+	var modifier = "NORMAL";
+	if(value.expected >= LARGE_COURSE_MARK) {
+	    modifier = "LARGE";
+        } else if(value.expected <= SMALL_COURSE_MARK) {
+            modifier = "SMALL";
+        }
 	addRow(courseTable,
 	       value.id,
 	       value.title,
 	       value.trimester,
 	       value.expected,
+	       modifier,
+	       value["new"],
 	       value.offered);
     });
     
