@@ -5,7 +5,7 @@
 # =============================================================
 
 HOMEDIR = r"/u/staff/djp/projects/TeachingAlloc/"
-ROOT_URL = r"/cgi-bin/cgiwrap/djp/teaching-alloc.cgi/"
+ROOT_URL = r"/cgi-bin/cgiwrap/djp/teaching-alloc.cgi"
 
 # ============================================================
 # Path Config
