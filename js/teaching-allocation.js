@@ -227,30 +227,30 @@ function populateTables(staff,courses,students,supervision,allocation) {
     // First, populate the staff table
     var staffTable = document.getElementById("staff");
     $.each(staff,function(key,value){
-      var fte = (calculate_effective_fte(value.fte,value.buyout,value.leave) * 100) + "%";
-      var research = (value.research*100)+"%";
-      var teaching = (value.teaching*100)+"%";
-      var admin = (value.admin*100)+"%";
-      addRow(staffTable,
-	     value.name,
-	     fte,
-	     research,
-	     teaching,
-	     admin,
-	     value.notes);
+	var fte = (calculate_effective_fte(value.fte,value.buyout,value.leave) * 100) + "%";
+	var research = (value.research*100)+"%";
+	var teaching = (1.0-(value.research+value.admin))*100+"%";
+	var admin = (value.admin*100)+"%";
+	addRow(staffTable,
+	       value.name,
+	       fte,
+	       research,
+	       teaching,
+	       admin,
+	       value.notes);
     });
-
+    
     // Second, populate the course table
     var courseTable = document.getElementById("courses");
     $.each(courses,function(key,value){
-       addRow(courseTable,
-	      value.id,
-	      value.title,
-	      value.trimester,
-	      value.expected,
-	      value.offered);
+	addRow(courseTable,
+	       value.id,
+	       value.title,
+	       value.trimester,
+	       value.expected,
+	       value.offered);
     });
-
+    
     // Third, populate the students table
     var studentsTable = document.getElementById("students");
     $.each(students,function(key,value){
