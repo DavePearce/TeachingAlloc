@@ -59,9 +59,9 @@ function calculate_teaching_load(allocation) {
       load = load + course_load;
   }
 
-  // NB: in calculation below, 3 for normal number of courses, 2
-  // because shared between supervision.
-    return load / (3*4);
+    // NB: in calculation below, 4 because base workload is 4 courses
+    // and 2 because this should give teaching at 50%.
+    return load / (4 * 2);
 }
 
 function calculate_supervision_load(allocation) {
@@ -70,11 +70,12 @@ function calculate_supervision_load(allocation) {
     for(var i=0;i!=allocation.length;++i) {
 	var allocation_record = allocation[i];
 	var supervision_load = allocation_record.load;          
+	// 2.5PG is equivalent to one course
 	load = load + supervision_load;
     }
     
     // NB: max supervision is 2.5PG
-    return Math.min(load,2.5) / (4 * 2.5);
+    return Math.min(load,3.5) / (2.5 * 4 * 2);
 }
 
 /**
