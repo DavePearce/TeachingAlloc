@@ -160,7 +160,7 @@ function calculate_staff_allocation(allocation_records,staff) {
 	    // Sanity check staff member actually registered
 	    var staff_record = staff_records[staff_name];
 	    var staff_new = staff_record["new"];
-	    staff_record.allocation.push({name: course_name, load: course_load, coordinator: course_coordinator, "newcourse": course_new, "new2course": staff_new2course, "newstaff": staff_new});
+	    staff_record.allocation.push({name: course_name, load: course_load, coordinator: course_coordinator, newcourse: course_new, new2course: staff_new2course, newstaff: staff_new});
 	}
     }
     return staff_records;
@@ -245,7 +245,7 @@ function to_allocation_string(records) {
     if(i != 0) { result = result + ", "; }
     var record = records[i];
     result = result + record.name + " (";
-    if("new2course" in record && record["new2course"]) {
+    if("newcourse" in record && record["newcourse"]) {
        result = result + "NC,";
     }
     if("new2course" in record && record["new2course"]) {
