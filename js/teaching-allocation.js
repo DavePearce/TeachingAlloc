@@ -137,7 +137,7 @@ function calculate_supervision_load(allocation) {
  * Calculate the allocation of courses to individual staff members,
  * including their current workload allocation.
  */
-function calculate_staff_allocation(allocation_records,staff) {
+function calculate_staff_allocation(staff,courses,teaching) {
     var staff_records = {};
 
     // First, initialise staff records
@@ -147,8 +147,8 @@ function calculate_staff_allocation(allocation_records,staff) {
     }
 
     // Second, merge records together for each staff member.
-    for(var i=0;i!=allocation_records.length;i=i+1) {
-	var allocation_record = allocation_records[i];
+    for(var i=0;i!=teaching.length;i=i+1) {
+	var allocation_record = teaching[i];
 	var staff_name = allocation_record.name;
 	var course_name = allocation_record.course;
 	var course_load = allocation_record.load;
@@ -200,7 +200,7 @@ function calculate_staff_supervision(supervision_records,staff) {
  * their current workload allocation.  Note that courses which are not
  * offered are ignored.
  */
-function calculate_course_allocation(allocation_records,courses) {
+function calculate_course_allocation(staff,courses,teaching) {
     var course_records = {};
     
     // First, initialise course records
@@ -212,14 +212,14 @@ function calculate_course_allocation(allocation_records,courses) {
     }
 
     // Second, merge records together for each course.
-    for(var i=0;i!=allocation_records.length;i=i+1) {
-	var allocation_record = allocation_records[i];
+    for(var i=0;i!=teaching.length;i=i+1) {
+	var allocation_record = teaching[i];
 	var staff_name = allocation_record.name;
 	var course_id = allocation_record.course;
 	var course_load = allocation_record.load;
 	var course_coordinator = allocation_record.coordinator;
 	var staff_new2course = allocation_record["new"];
-	var staff_new = false; // FIXME
+	var staff_new = false; // default
 
 	if(course_id in course_records) {
 	    // Sanity check course actually registered
@@ -293,7 +293,7 @@ function addRow(table,value) {
  * 4) List of allocations where reach record allocates a given staff
  * member to a given course.
  */
-function populateTables(staff,courses,students,supervision,allocation) {
+function populateTables(staff,courses,students,supervision,teaching) {
     
     // First, populate the staff table
     var staffTable = document.getElementById("staff");
@@ -351,8 +351,8 @@ function populateTables(staff,courses,students,supervision,allocation) {
     });
 
     // Fifth, populate the allocation table
-    var staff_allocation = calculate_staff_allocation(allocation,staff);
-    var course_allocation = calculate_course_allocation(allocation,courses);
+    var staff_allocation = calculate_staff_allocation(staff,courses,teaching);
+    var course_allocation = calculate_course_allocation(staff,courses,teaching);
         
     var allocationTable = document.getElementById("staff-allocation");
     $.each(staff_allocation,function(key,value){       
