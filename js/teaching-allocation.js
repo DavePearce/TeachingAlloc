@@ -61,7 +61,7 @@ function calculate_teaching_load(allocation) {
 
   // NB: in calculation below, 3 for normal number of courses, 2
   // because shared between supervision.
-  return load / 3;
+    return load / (3*2);
 }
 
 function calculate_supervision_load(allocation) {
@@ -74,7 +74,7 @@ function calculate_supervision_load(allocation) {
     }
     
     // NB: max supervision is 2.5PG
-    return Math.min(load,2.5) / 2.5;
+    return Math.min(load,2.5) / (2 * 2.5);
 }
 
 /**
@@ -294,16 +294,19 @@ function populateTables(staff,courses,students,supervision,allocation) {
 	var staff_name = value.name;
         var fte = calculate_effective_fte(value.fte,value.buyout,value.leave);
         var admin_load = value.admin;
-	var teaching_load = value.teaching * calculate_teaching_load(staff_allocation[staff_name].allocation);
-	var supervision_load = value.research * calculate_supervision_load(supervision_allocation[staff_name].allocation);
-	var overall_load = (admin_load + teaching_load + supervision_load) / fte;
+	var raw_teaching_load = calculate_teaching_load(staff_allocation[staff_name].allocation);
+	var raw_supervision_load = calculate_supervision_load(supervision_allocation[staff_name].allocation);
+	var teaching_load = (raw_teaching_load + raw_supervision_load) / (4*value.teaching);
+	var research_load = value.research;
+	var raw_overall_load = admin_load + teaching_load + research_load;
+	var overall_load = raw_overall_load / fte;
 	addRow(summaryTable,
 	       staff_name,
 	       Math.round(fte*100)+"%",
-	       Math.round(100*admin_load)+"%",
-	       Math.round(100*teaching_load)+"%",
-	       Math.round(100*supervision_load)+"%",
-	       Math.round(100*overall_load)+"%");	
+	       "<b>" + Math.round(100*research_load) + "%</b>",
+	       "(" + Math.round(100*raw_teaching_load) + "% + " +  Math.round(100*raw_supervision_load) + "%) / (4 x " + (100*value.teaching) + ") = <b>" + Math.round(100*teaching_load)+"</b>%",
+	       "<b>" + Math.round(100*admin_load)+"%</b>",
+	       fte + " x " + Math.round(100*raw_overall_load) + " = <b>" + Math.round(100*overall_load)+"%</b>");	
     });
 }
 
