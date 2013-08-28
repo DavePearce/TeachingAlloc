@@ -1,4 +1,17 @@
 [
-	{"name": "Roman Klapaukh", "degree": "PhD", "supervisors": [ {"name": "David J. Pearce", "load": 0.5}, {"name": "Stuart Marshall", "load": 0.5} ] },
-	{"name": "Michael Homer", "degree": "PhD", "supervisors": [ {"name": "James Noble", "load": 0.5}, {"name": "David J. Pearce", "load": 0.5} ] }
+	{"supervisor": "David Pearce", "student": "Roman Klapaukh", "load": 0.5 },
+	{"supervisor": "David Pearce", "student": "Michael Homer", "load": 0.5 },
+	{"supervisor": "David Pearce", "student": "Timothy Jones", "load": 0.5 },
+
+	{"supervisor": "Stuart Marshall", "student": "Roman Klapaukh", "load": 0.5 },
+	{"supervisor": "Stuart Marshall", "student": "Pakapan Limtrairut", "load": 0.5 },
+
+	{"supervisor": "Hui Ma", "student": "Devi Rajkumari", "load": 0.5 },
+	{"supervisor": "Hui Ma", "student": "Vahid Arabnezad", "load": 1.0 },
+
+	{"supervisor": "James Noble", "student": "Paley Li", "load": 0.5 },
+	{"supervisor": "James Noble", "student": "Michael Waterman", "load": 0.5 },
+	{"supervisor": "James Noble", "student": "Michael Homer", "load": 0.5 },
+	{"supervisor": "James Noble", "student": "Timothy Jones", "load": 0.5 },
+	{"supervisor": "James Noble", "student": "Mawarny Rejab", "load": 0.5 }
 ]
