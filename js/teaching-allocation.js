@@ -61,7 +61,7 @@ function calculate_teaching_load(allocation) {
 
   // NB: in calculation below, 3 for normal number of courses, 2
   // because shared between supervision.
-  return load / (3*2);
+  return load / 3;
 }
 
 function calculate_supervision_load(allocation) {
@@ -294,12 +294,12 @@ function populateTables(staff,courses,students,supervision,allocation) {
 	var staff_name = value.name;
         var fte = calculate_effective_fte(value.fte,value.buyout,value.leave);
         var admin_load = value.admin;
-	var teaching_load = calculate_teaching_load(staff_allocation[staff_name].allocation);
-	var supervision_load = calculate_supervision_load(supervision_allocation[staff_name].allocation);
+	var teaching_load = value.teaching * calculate_teaching_load(staff_allocation[staff_name].allocation);
+	var supervision_load = value.research * calculate_supervision_load(supervision_allocation[staff_name].allocation);
 	var overall_load = (admin_load + teaching_load + supervision_load) / fte;
 	addRow(summaryTable,
 	       staff_name,
-	       (Math.round(fte*100)/100),
+	       Math.round(fte*100)+"%",
 	       Math.round(100*admin_load)+"%",
 	       Math.round(100*teaching_load)+"%",
 	       Math.round(100*supervision_load)+"%",
