@@ -33,19 +33,10 @@ import main
 # Start CherryPY
 # ============================================================
 
-class App(object):
-    def __init__(self):
-        pass
-    # application root
-    def index(self):        
-        return "Hello World"
-    index.exposed = True
-
 import wsgiref.handlers
 
 def application(environ, start_response):
-    app = cherrypy.tree.mount(App(), ROOT_URL)
-    #app = cherrypy.tree.mount(main.Main(ROOT_URL,os.getenv("REMOTE_USER")), ROOT_URL)
+    app = cherrypy.tree.mount(main.Main(ROOT_URL,os.getenv("REMOTE_USER")), ROOT_URL)
     return app(environ,start_response)
 
 if __name__ == '__main__':

@@ -2,6 +2,9 @@
 	{"supervisor": "David Pearce", "student": "Roman Klapaukh", "load": 0.5 },
 	{"supervisor": "David Pearce", "student": "Michael Homer", "load": 0.5 },
 	{"supervisor": "David Pearce", "student": "Timothy Jones", "load": 0.5 },
+	{"supervisor": "David Pearce", "student": "Paran Haslett", "load": 0.5 },
+
+	{"supervisor": "Lindsay Groves", "student": "Paran Haslett", "load": 0.5 },
 
 	{"supervisor": "Stuart Marshall", "student": "Roman Klapaukh", "load": 0.5 },
 	{"supervisor": "Stuart Marshall", "student": "Pakapan Limtrairut", "load": 0.5 },

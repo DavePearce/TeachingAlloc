@@ -307,10 +307,10 @@ function populateTables(staff,courses,students,supervision,allocation) {
 	addRow(summaryTable,
 	       staff_name,
 	       Math.round(fte*100)+"%",
-	       "<b>" + Math.round(100*research_load) + "%</b>",
-	       Math.round(100*raw_teaching_load) + "% + " +  Math.round(100*raw_supervision_load) + "% = <b>" + Math.round(100*teaching_load)+"</b>%",
-	       "<b>" + Math.round(100*admin_load)+"%</b>",
-	       fte + " x " + Math.round(100*raw_overall_load) + " = <b>" + Math.round(100*overall_load)+"%</b>");	
+	       Math.round(100*research_load) + "%",
+	       Math.round(100*raw_teaching_load) + "% + " +  Math.round(100*raw_supervision_load) + "% = " + Math.round(100*teaching_load)+"%",
+	       Math.round(100*admin_load)+"%",
+	       Math.round(100*raw_overall_load) + " / " + (fte * 100) + " = " + Math.round(100*overall_load)+"%");	
     });
 }
 
