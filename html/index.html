@@ -6,11 +6,11 @@
 <script type="text/javascript">
 
 $(document).ready(function () {
-  $.getJSON("../../../data/${YEAR}/staff",function(staff) {
-    $.getJSON("../../../data/${YEAR}/courses",function(courses) {
-      $.getJSON("../../../data/${YEAR}/students",function(students) {
-        $.getJSON("../../../data/${YEAR}/supervision",function(supervision) {
-          $.getJSON("../../../data/${YEAR}/teaching",function(teaching) {
+  $.getJSON("${ROOT_URL}data/${YEAR}/staff",function(staff) {
+    $.getJSON("${ROOT_URL}data/${YEAR}/courses",function(courses) {
+      $.getJSON("${ROOT_URL}data/${YEAR}/students",function(students) {
+        $.getJSON("${ROOT_URL}data/${YEAR}/supervision",function(supervision) {
+          $.getJSON("${ROOT_URL}data/${YEAR}/teaching",function(teaching) {
             populateTables(staff,courses,students,supervision,teaching);
           });
         });

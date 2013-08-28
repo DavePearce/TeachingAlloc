@@ -9,7 +9,7 @@
   padding: 0px;
   text-align: center;
   font-family: "helvetica"; 
-  background: #747474 url(images/back.gif) top center;
+  background: #747474 url(../images/back.gif) top center;
   background-repeat: repeat-y;
  }  
  #container {
@@ -38,9 +38,8 @@
   padding: 1em 1em 1em 1em;
   font-family: "Lucida Grande", "Trebuchet MS";
   font-size: 0.8em;
-  text-align: "justify";
  } 
- #content h1 { margin: 0 0 20 0px; font-size: 22pt; font-weight: normal; }
+ #content h1 { margin: 0 0 20 0; font-size: 22pt; font-weight: normal; }
  #content h2 { margin: 0 0 10 0; font-size: 14pt; font-weight: normal; }
 
 /* ====================================================== */
