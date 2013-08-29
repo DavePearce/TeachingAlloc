@@ -339,7 +339,7 @@ function isCourseStrategic(id,courses) {
 /**
  * Convert an array of allocation records into a sensible string
  */
-function allocationToString(records) {
+function toAllocationString(records) {
     var result = "";
     for(var i=0;i!=records.length;++i) {
 	if(i != 0) { result = result + ", "; }
@@ -369,6 +369,28 @@ function allocationToString(records) {
 	result = result + ")";
     }
     return result;
+}
+
+function toModifierString(record) {
+    var modifiers = "";
+    if(record.expected >= LARGE_COURSE_MARK) {
+    	modifiers += "Large";
+    } else if(record.expected <= SMALL_COURSE_MARK) {
+        modifiers += "Small";
+    }
+    if(record["new"]) {
+    	if(modifiers != "") { modifiers += ", "; }
+    	modifiers += "New";
+    }
+    if(record.strategic) {
+    	if(modifiers != "") { modifiers += ", "; }
+    	modifiers += "Strategic";
+    }
+    if(!record.offered) {
+    	if(modifiers != "") { modifiers += ", "; }
+    	modifiers += "Not Offered";
+    }
+    return modifiers;
 }
 
 /**
@@ -423,21 +445,13 @@ function populateTables(staff,courses,students,supervision,teaching) {
     
     // Second, populate the course table
     var courseTable = document.getElementById("courses");
-    $.each(courses,function(key,value){
-	var modifier = "NORMAL";
-	if(value.expected >= LARGE_COURSE_MARK) {
-	    modifier = "LARGE";
-        } else if(value.expected <= SMALL_COURSE_MARK) {
-            modifier = "SMALL";
-        }
+    $.each(courses,function(key,value){	
 	addRow(courseTable,
 	       value.id,
 	       value.title,
 	       value.trimester,
 	       value.expected,
-	       modifier,
-	       value["new"],
-	       value.offered);
+	       toModifierString(value));
     });
     
     // Third, populate the students table
@@ -456,7 +470,7 @@ function populateTables(staff,courses,students,supervision,teaching) {
     	addRow(supervisionTable,
 	       value.name,
 	       Math.round(load*100)+"%",
-	       allocationToString(value.allocation));
+	       toAllocationString(value.allocation));
     });
 
     // Fifth, populate the allocation table
@@ -469,7 +483,7 @@ function populateTables(staff,courses,students,supervision,teaching) {
 	addRow(allocationTable,
 	       value.name,
 	       Math.round(load*100) + "%",
-	       allocationToString(value.allocation));
+	       toAllocationString(value.allocation));
     });
     
     allocationTable = document.getElementById("course-allocation");
@@ -477,7 +491,7 @@ function populateTables(staff,courses,students,supervision,teaching) {
        addRow(allocationTable,
 	      value.name,
 	      value.coverage,
-	      allocationToString(value.allocation));
+	      toAllocationString(value.allocation));
     });
 
     // Finally, populate the overall summary table
