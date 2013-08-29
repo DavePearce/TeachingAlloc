@@ -11,13 +11,13 @@
 	{"name": "Alex Potanin", "course": "NWEN303", "load": 0.5, "coordinator": true, "new": false},
 	{"name": "Alex Potanin", "course": "SWEN430", "load": 1.0, "coordinator": true, "new": false},
 
-	{"name": "David Streader", "course": "COMP102", "load": 0.2, "coordinator": false, "new": true},
+	{"name": "David Streader", "course": "COMP102a", "load": 0.2, "coordinator": false, "new": true},
 	{"name": "David Streader", "course": "COMP112", "load": 0.4, "coordinator": false, "new": true},
 	{"name": "David Streader", "course": "SWEN224", "load": 1.0, "coordinator": true, "new": false},
 	{"name": "David Streader", "course": "SWEN421", "load": 1.0, "coordinator": true, "new": false},
 
 	{"name": "Stuart Marshall", "course": "ENGR101a", "load": 0.33, "coordinator": false, "new": true},
-	{"name": "Stuart Marshall", "course": "ENGR101b", "load": 0.33, "coordinator": false, "new": true},
+	{"name": "Stuart Marshall", "course": "ENGR101b", "load": 0.33, "coordinator": false, "new": false},
 	{"name": "Stuart Marshall", "course": "COMP313", "load": 0.5, "coordinator": true, "new": false},
 	{"name": "Stuart Marshall", "course": "SWEN303", "load": 1.0, "coordinator": true, "new": false},
 	{"name": "Stuart Marshall", "course": "SWEN422", "load": 1.0, "coordinator": true, "new": false},
