@@ -499,6 +499,7 @@ function populateTables(staff,courses,students,supervision,teaching) {
     var summaryTable = document.getElementById("summary");
     $.each(staff,function(key,value){
 	var staff_name = value.name;
+	var staff_group = value.group;
         var fte = calculateEffectiveFTE(value.fte,value.buyout,value.leave);
         var admin_load = value.admin;
 	var raw_teaching_load = calculateTeachingLoad(staff_allocation[staff_name].allocation);
@@ -509,6 +510,7 @@ function populateTables(staff,courses,students,supervision,teaching) {
 	var overall_load = raw_overall_load / fte;
 	addRow(summaryTable,
 	       staff_name,
+	       staff_group,
 	       Math.round(fte*100)+"%",
 	       Math.round(100*research_load) + "%",
 	       Math.round(100*raw_teaching_load) + "% + " +  Math.round(100*raw_supervision_load) + "% = " + Math.round(100*teaching_load)+"%",
