@@ -5,30 +5,46 @@
 
 	{"name": "David Pearce", "course": "SWEN221", "load": 0.5, "coordinator": true, "new": false},
 	{"name": "David Pearce", "course": "SWEN222", "load": 0.5, "coordinator": true, "new": false},
-
 	{"name": "Alex Potanin", "course": "COMP261", "load": 0.5, "coordinator": true, "new": false},
 	{"name": "Alex Potanin", "course": "COMP361", "load": 1.0, "coordinator": true, "new": false},
 	{"name": "Alex Potanin", "course": "NWEN303", "load": 0.5, "coordinator": true, "new": false},
 	{"name": "Alex Potanin", "course": "SWEN430", "load": 1.0, "coordinator": true, "new": false},
-
 	{"name": "David Streader", "course": "COMP102a", "load": 0.2, "coordinator": false, "new": true},
 	{"name": "David Streader", "course": "COMP112", "load": 0.4, "coordinator": false, "new": true},
 	{"name": "David Streader", "course": "SWEN224", "load": 1.0, "coordinator": true, "new": false},
 	{"name": "David Streader", "course": "SWEN421", "load": 1.0, "coordinator": true, "new": false},
-
 	{"name": "Stuart Marshall", "course": "ENGR101a", "load": 0.33, "coordinator": false, "new": true},
 	{"name": "Stuart Marshall", "course": "ENGR101b", "load": 0.33, "coordinator": false, "new": false},
 	{"name": "Stuart Marshall", "course": "COMP313", "load": 0.5, "coordinator": true, "new": false},
 	{"name": "Stuart Marshall", "course": "SWEN303", "load": 1.0, "coordinator": true, "new": false},
 	{"name": "Stuart Marshall", "course": "SWEN422", "load": 1.0, "coordinator": true, "new": false},
-
 	{"name": "James Noble", "course": "SWEN223", "load": 0.5, "coordinator": true, "new": true},
 	{"name": "James Noble", "course": "SWEN302", "load": 1.0, "coordinator": true, "new": false},
 	{"name": "James Noble", "course": "SWEN425", "load": 1.0, "coordinator": true, "new": false},
-
 	{"name": "Marco Servetto", "course": "SWEN221", "load": 0.5, "coordinator": false, "new": false},
 	{"name": "Marco Servetto", "course": "SWEN222", "load": 0.5, "coordinator": false, "new": false},
 	{"name": "Marco Servetto", "course": "SWEN423", "load": 1.0, "coordinator": true, "new": false},
+	{"name": "Pavle Morgin", "course": "SWEN432", "load": 1.0, "coordinator": true, "new": false},
 
-	{"name": "Pavle Morgin", "course": "SWEN432", "load": 1.0, "coordinator": true, "new": false}
+	{"name": "Peter Andreae", "course": "COMP102a", "load": 0.5, "coordinator": true, "new": false},
+	{"name": "Peter Andreae", "course": "COMP112", "load": 0.5, "coordinator": true, "new": true},
+	{"name": "Peter Andreae", "course": "ENGR110", "load": 0.5, "coordinator": false, "new": true},
+	{"name": "Mengjie Zhang", "course": "COMP307", "load": 0.5, "coordinator": true, "new": false},
+	{"name": "Mengjie Zhang", "course": "COMP422", "load": 1.0, "coordinator": true, "new": false},	
+	{"name": "Marcus Frean", "course": "COMP103", "load": 1.0, "coordinator": true, "new": false},
+	{"name": "Marcus Frean", "course": "COMP307", "load": 0.5, "coordinator": false, "new": false},
+	{"name": "Marcus Frean", "course": "COMP421", "load": 1.0, "coordinator": true, "new": false},
+	{"name": "Taehyun Rhee", "course": "COMP308", "load": 1.0, "coordinator": false, "new": false},
+	{"name": "Taehyun Rhee", "course": "COMP408", "load": 1.0, "coordinator": true, "new": false},
+	{"name": "Taehyun Rhee", "course": "COMP471", "load": 0.5, "coordinator": false, "new": false},
+	{"name": "Taehyun Rhee", "course": "COMP472", "load": 0.5, "coordinator": true, "new": false},
+	{"name": "John Lewis", "course": "COMP409", "load": 1.0, "coordinator": true, "new": false},
+	{"name": "John Lewis", "course": "COMP471", "load": 0.5, "coordinator": true, "new": false},
+	{"name": "John Lewis", "course": "COMP472", "load": 0.5, "coordinator": false, "new": false},
+
+	{"name": "Sharon Gao", "course": "COMP102b", "load": 1.0, "coordinator": true, "new": false},
+	{"name": "Sharon Gao", "course": "COMP102a", "load": 0.5, "coordinator": false, "new": false},
+	{"name": "Sharon Gao", "course": "COMP261", "load": 0.5, "coordinator": false, "new": false},
+	{"name": "Sharon Gao", "course": "ENGR489", "load": 1.0, "coordinator": true, "new": false}
+
 ]

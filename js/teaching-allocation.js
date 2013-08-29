@@ -83,25 +83,25 @@ function calculateTeachingLoad(allocation) {
 	if(allocation_record.largeCourse) {
 	    // A standard course will be allocated a workload cost of 1.0
 	    // and an additional 0.15 will be given for Large courses (L).
-	    final_load += 0.15;      
+	    final_load += course_load * 0.15;      
 	}
 	if(allocation_record.strategicCourse) {
 	    // A standard course will be allocated a workload cost of 1.0
 	    // and an additional 0.15 will be given for Large courses (L).
-	    final_load += 0.15;      
+	    final_load += course_load * 0.15;      
 	}
 	if(allocation_record.newToCourse) {
             // New Lectures (NL) to a course are given a 50%
             // additional weighting.
-            final_load += course_load * 1.5;
+            final_load += course_load * 0.5;
 	}
 	if(allocation_record.newStaff) {
             // New Staff (NS) are given a 50% additional weighting.
-            final_load += course_load * 1.5;
+            final_load += course_load * 0.5;
 	}
 	if(allocation_record.newCourse) {
             // New Courses (NC) are given a 50% additional weighting.
-            final_load += course_load * 1.5;
+            final_load += course_load * 0.5;
 	}
 	
 	load = load + final_load;
@@ -435,6 +435,7 @@ function populateTables(staff,courses,students,supervision,teaching) {
 	var admin = (value.admin*100)+"%";
 	addRow(staffTable,
 	       value.name,
+	       value.group,
 	       fte,
 	       research,
 	       teaching,
