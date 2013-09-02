@@ -2,8 +2,8 @@
 /* Page Layout */
 /* ====================================================== */
 
- p { color:#009900; font-family:"comic sans ms",sans-serif; } 
  html,body { height:100% }
+
  body { 
   margin: 0px;
   padding: 0px;
@@ -42,6 +42,13 @@
  #content h1 { margin: 0 0 20 0; font-size: 22pt; font-weight: normal; }
  #content h2 { margin: 0 0 10 0; font-size: 14pt; font-weight: normal; }
 
+ code {
+  background-color: #eeeeee;
+  font-family: "courier"; 
+  padding: 1px;
+  border: 1px solid black;
+ }
+
 /* ====================================================== */
 /* Display Tables (Generic) */
 /* ====================================================== */
@@ -60,6 +67,14 @@
 
  table.data #odd {
   background-color: #FFFFD6;
+ }
+
+ div.status_ok {
+     background-color: #76ce76;
+ }
+
+ div.status_less {
+     background-color: #ce7676;
  }
 
 /* ====================================================== */

@@ -489,15 +489,20 @@ function populateTables(staff,courses,students,supervision,teaching) {
     
     allocationTable = document.getElementById("course-allocation");
     $.each(course_allocation,function(key,value){       
-       addRow(allocationTable,
+	var coverage_html = Math.round(value.coverage*100) + "%";
+	// calculate status
+	if(value.coverage < 0.99) {
+	    coverage_html = "<div class=\"status_less\">" + coverage_html + "</div>";
+	} 
+	addRow(allocationTable,
 	      value.name,
-	      value.coverage,
+	      coverage_html,
 	      toAllocationString(value.allocation));
     });
 
     // Finally, populate the overall summary table
     var summaryTable = document.getElementById("summary");
-    $.each(staff,function(key,value){
+    $.each(staff,function(key,value){	
 	var staff_name = value.name;
 	var staff_group = value.group;
         var fte = calculateEffectiveFTE(value.fte,value.buyout,value.leave);
@@ -508,14 +513,22 @@ function populateTables(staff,courses,students,supervision,teaching) {
 	var research_load = value.research;
 	var raw_overall_load = admin_load + teaching_load + research_load;
 	var overall_load = raw_overall_load / fte;
-	addRow(summaryTable,
+	var overall_html = Math.round(100*raw_overall_load) + " / " + (fte * 100) + " = " + Math.round(100*overall_load)+"%";
+	// calculate status
+	if(overall_load > 1.2) {
+	    overall_html = "<div class=\"status_less\">" + overall_html + "</div>";
+	} else if(overall_load >= 0.95) {
+	    overall_html = "<div class=\"status_ok\">" + overall_html + "</div>";
+	} 
+	// add summary row
+	addRow(summaryTable,	       
 	       staff_name,
 	       staff_group,
 	       Math.round(fte*100)+"%",
 	       Math.round(100*research_load) + "%",
 	       Math.round(100*raw_teaching_load) + "% + " +  Math.round(100*raw_supervision_load) + "% = " + Math.round(100*teaching_load)+"%",
 	       Math.round(100*admin_load)+"%",
-	       Math.round(100*raw_overall_load) + " / " + (fte * 100) + " = " + Math.round(100*overall_load)+"%");	
+	       overall_html);	
     });
 }
 
