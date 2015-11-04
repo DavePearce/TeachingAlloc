@@ -111,6 +111,21 @@ function calculateTeachingLoad(allocation) {
     return load / (BASE_WORKLOAD * 2);
 }
 
+/**
+ * Calculate the teaching efts for a given course allocation.  That
+ * is, the projected number of students that the given allocation is
+ * teaching.
+ */
+function calculateTeachingEfts(allocation) {
+    var efts = 0;
+    for(var i=0;i!=allocation.length;++i) {
+	var allocation_record = allocation[i];
+	var course_load = allocation_record.load;   
+	efts = efts + (allocation_record.efts * course_load);
+    }    
+    return efts;
+}
+
 function calculateSupervisionLoad(allocation) {
     var load = 0;
 
@@ -154,6 +169,7 @@ function calculateStaffAllocation(staff,courses,teaching) {
 	    var course_large = isCourseLarge(course_id,courses);
 	    var course_small = isCourseSmall(course_id,courses);
 	    var course_strategic = isCourseStrategic(course_id,courses);
+	    var course_efts = getCourseEfts(course_id,courses);
 
 	    staff_record.allocation.push({
 		name: course_id, 
@@ -164,7 +180,8 @@ function calculateStaffAllocation(staff,courses,teaching) {
 		newStaff: staff_new,
 		largeCourse: course_large,
 		smallCourse: course_small,
-		strategicCourse: course_strategic
+		strategicCourse: course_strategic,
+		efts: course_efts
 	    });
 	}
     }
@@ -238,7 +255,6 @@ function calculateCourseAllocation(staff,courses,teaching) {
 	    var course_large = isCourseLarge(course_id,courses);
 	    var course_small = isCourseSmall(course_id,courses);
 	    var course_strategic = isCourseStrategic(course_id,courses);
-
 	    course_record.allocation.push({
 		name: staff_name, 
 		load: course_load, 
@@ -329,6 +345,19 @@ function isCourseStrategic(id,courses) {
     	}
     }
     return false;
+}
+
+/**
+ * Determine the number of efts for a given course.
+ */
+function getCourseEfts(id,courses) {
+    for(var i=0;i!=courses.length;++i) {
+    	var course_id = courses[i].id;
+    	if(course_id == id) { 
+    	    return courses[i].expected; 
+    	}
+    }
+    return 0;
 }
 
 
@@ -481,9 +510,11 @@ function populateTables(staff,courses,students,supervision,teaching) {
     var allocationTable = document.getElementById("staff-allocation");
     $.each(staff_allocation,function(key,value){       
 	var load = calculateTeachingLoad(value.allocation);
+	var efts = calculateTeachingEfts(value.allocation);
 	addRow(allocationTable,
 	       value.name,
 	       Math.round(load*100) + "%",
+	       efts,
 	       toAllocationString(value.allocation));
     });
     
