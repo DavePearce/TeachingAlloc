@@ -15,14 +15,6 @@
  */
 BASE_HOURS = 1725;
 
-/**
- * The workload calculation is based around the c + n model, where n
- * is the number of students and c is a constant factor, called the
- * "course constant".  The course constant accounts for course costs
- * which are constant irrespective of students numbers.
- */
-COURSE_CONSTANT = 150;
-
 // ===============================================================
 // Load Calculations
 // ===============================================================
@@ -40,8 +32,9 @@ function calculateEffectiveFTE(fte,buyout,leave) {
 /**
  * Calculate the teaching load for a given course allocation.
  */
-function calculateTeachingHours(allocation) {
-    var load = 0;
+function calculateTeachingHours(base, allocation) {
+    var load = base;
+
     for(var i=0;i!=allocation.length;++i) {
 	var allocation_record = allocation[i];
 	var course_load = allocation_record.load;
@@ -64,8 +57,11 @@ function calculateTeachingHours(allocation) {
 	if(allocation_record.newCourse) {
             // New Courses (NC) are given a 50% additional weighting.
             final_load += course_load * 0.5;
-	}	
-	var course_hours = final_load * (150 + allocation_record.efts);
+	}
+	var c = allocation_record.constant_c;
+	var f = allocation_record.coefficient_f;
+	var n = allocation_record.efts;
+	var course_hours = final_load * (c + (f * n));
 	load = load + course_hours;
     }
     
@@ -97,8 +93,9 @@ function calculateStaffAllocation(staff,courses,teaching) {
 
     // First, initialise staff records
     for(var i=0;i!=staff.length;++i) {
-    	var staff_name = staff[i].name;
-    	staff2courses[staff_name] = { name: staff_name, allocation: [] };
+    	var staff_name = staff[i].name;	
+    	var staff_base = staff[i].base;
+    	staff2courses[staff_name] = { name: staff_name, base: staff_base, allocation: [] };
     }
 
     // Second, merge records together for each staff member.
@@ -116,7 +113,9 @@ function calculateStaffAllocation(staff,courses,teaching) {
 	    var staff_new = isStaffNew(staff_name,staff);
 	    var course_new = isCourseNew(course_id,courses);
 	    var course_efts = getCourseEfts(course_id,courses);
-
+	    var constant_c = getCourseConstant(course_id,courses);
+	    var coefficient_f = getCourseCoefficient(course_id,courses);
+	    //
 	    staff_record.allocation.push({
 		name: course_id, 
 		load: course_load, 
@@ -124,7 +123,9 @@ function calculateStaffAllocation(staff,courses,teaching) {
 		newCourse: course_new, 
 		newToCourse: staff_newToCourse, 
 		newStaff: staff_new,
-		efts: course_efts
+		efts: course_efts,
+		constant_c: constant_c,
+		coefficient_f: coefficient_f
 	    });
 	}
     }
@@ -224,6 +225,31 @@ function getCourseEfts(id,courses) {
     return 0;
 }
 
+/**
+ * Determine the constant c for a course.
+ */
+function getCourseConstant(id,courses) {
+    for(var i=0;i!=courses.length;++i) {
+    	var course_id = courses[i].id;
+    	if(course_id == id) { 
+    	    return courses[i].constant_c; 
+    	}
+    }
+    return 0;
+}
+
+/**
+ * Determine the coefficient f for a course.
+ */
+function getCourseCoefficient(id,courses) {
+    for(var i=0;i!=courses.length;++i) {
+    	var course_id = courses[i].id;
+    	if(course_id == id) { 
+    	    return courses[i].coefficient_f; 
+    	}
+    }
+    return 0;
+}
 
 // ===============================================================
 // GUI Helpers
@@ -297,7 +323,6 @@ function addRow(table,value) {
  * member to a given course.
  */
 function populateTables(staff,courses,teaching) {
-
     // First, populate the staff table
     var staffTable = document.getElementById("staff");
     $.each(staff,function(key,value){
@@ -309,18 +334,23 @@ function populateTables(staff,courses,teaching) {
 	       value.name,
 	       value.group,
 	       fte,
-	       value["new"],
+	       value.base,
+	       value["new"],	       
 	       value.notes);
     });
     
     // Second, populate the course table
     var courseTable = document.getElementById("courses");
-    $.each(courses,function(key,value){	
+    $.each(courses,function(key,value){
+	var workload = value.constant_c + (value.expected * value.coefficient_f);
 	addRow(courseTable,
 	       value.id,
 	       value.title,
 	       value.trimester,
 	       value.expected,
+	       value.constant_c,
+	       value.coefficient_f,
+	       Math.round(workload),
 	       toModifierString(value));
     });
 
@@ -329,8 +359,8 @@ function populateTables(staff,courses,teaching) {
     var course_allocation = calculateCourseAllocation(staff,courses,teaching);
         
     var allocationTable = document.getElementById("staff-allocation");
-    $.each(staff_allocation,function(key,value){       
-	var load = calculateTeachingHours(value.allocation);
+    $.each(staff_allocation,function(key,value){
+	var load = calculateTeachingHours(value.base,value.allocation);
 	var efts = calculateTeachingEfts(value.allocation);
 	addRow(allocationTable,
 	       value.name,
@@ -354,14 +384,14 @@ function populateTables(staff,courses,teaching) {
 
     // Finally, populate the overall summary table
     var summaryTable = document.getElementById("summary");
-    $.each(staff,function(key,value){	
+    $.each(staff,function(key,value){
 	var staff_name = value.name;
 	var staff_group = value.group;
         var fte = calculateEffectiveFTE(value.fte,value.buyout,value.leave);
         var admin_load = value.admin;
 	var research_load = value.research;
 	var teaching_load = 1.0 - (admin_load + research_load);
-	var teaching_hours = calculateTeachingHours(staff_allocation[staff_name].allocation);
+	var teaching_hours = calculateTeachingHours(value.base,staff_allocation[staff_name].allocation);
 	var teaching_base = BASE_HOURS * fte * teaching_load;
 	var teaching_workload = teaching_hours / (BASE_HOURS * fte);
 	var teaching_html = Math.round(100*teaching_workload) + "% (" + Math.round(teaching_hours) + " hours)";
