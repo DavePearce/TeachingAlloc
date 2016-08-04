@@ -10,46 +10,18 @@
 // ===============================================================
 
 /**
- * The base workload sets the expected number of effective courses
- * taught by a member of staff on 50% teaching allocation (which is
- * the norm).  Observe that supervision counts towards the number of
- * effective courses taught.
+ * The base number of hours a staff member is expected to be working
+ * in a given year.
  */
-BASE_WORKLOAD = 4;
+BASE_HOURS = 1725;
 
 /**
- * The number of post graduate supervisions which is equivalent to one
- * course is set by this constant.  Thus, a staff member who is
- * supervising this number of post-graduate students will have to
- * teach one less course.
+ * The workload calculation is based around the c + n model, where n
+ * is the number of students and c is a constant factor, called the
+ * "course constant".  The course constant accounts for course costs
+ * which are constant irrespective of students numbers.
  */
-POSTGRADS_PER_COURSE = 2.5;
-
-/**
- * The maximum number of post-graduate supervisions which will be
- * counted towards teaching buy out.  This is intended to ensure that
- * supervising lots of students does not completely buy one out from
- * teaching.
- */
-MAX_POSTGRAD_BUYOUT = 3.5;
-
-/**
- * The large course mark identifies the number of students required
- * for a course to be given the "large course" modifier.  This
- * modifier increases the cost of teaching such a course, and is
- * intended to give additional weighting to courses with high numbers
- * of students.
- */
-LARGE_COURSE_MARK = 80;
-
-/**
- * The small course mark identifies the number of students below which
- * a course will be given the "small course" modifier.  This modifier
- * decreases the cost of teaching such a course, and is intended to
- * account for the relative ease of teaching a course with very few
- * students.
- */
-SMALL_COURSE_MARK = 10;
+COURSE_CONSTANT = 150;
 
 // ===============================================================
 // Load Calculations
@@ -68,28 +40,18 @@ function calculateEffectiveFTE(fte,buyout,leave) {
 /**
  * Calculate the teaching load for a given course allocation.
  */
-function calculateTeachingLoad(allocation) {
+function calculateTeachingHours(allocation) {
     var load = 0;
     for(var i=0;i!=allocation.length;++i) {
 	var allocation_record = allocation[i];
-	var course_load = allocation_record.load;    
-	var final_load = course_load;
-	if(allocation_record.coordinator) {
-	    // A standard course will be allocated a workload cost of 1.0
-	    // and an additional 0.1 will be given to the Course
-	    // Coordinator (C)
-	    final_load += 0.1;      
-	}
-	if(allocation_record.largeCourse) {
-	    // A standard course will be allocated a workload cost of 1.0
-	    // and an additional 0.15 will be given for Large courses (L).
-	    final_load += course_load * 0.15;      
-	}
-	if(allocation_record.strategicCourse) {
-	    // A standard course will be allocated a workload cost of 1.0
-	    // and an additional 0.15 will be given for Large courses (L).
-	    final_load += course_load * 0.15;      
-	}
+	var course_load = allocation_record.load;
+	// The course load is the proportion of teaching being
+	// undertaken.  20% is allocated for coordination.
+	var final_load = course_load * 0.8;
+	if(allocation_record.couse_coordinator) {
+            // Course coordinators get 20% additional weighting.
+            final_load += course_load + 0.2;
+	}	
 	if(allocation_record.newToCourse) {
             // New Lectures (NL) to a course are given a 50%
             // additional weighting.
@@ -102,13 +64,13 @@ function calculateTeachingLoad(allocation) {
 	if(allocation_record.newCourse) {
             // New Courses (NC) are given a 50% additional weighting.
             final_load += course_load * 0.5;
-	}
-	
-	load = load + final_load;
+	}	
+	var course_hours = final_load * (150 + allocation_record.efts);
+	load = load + course_hours;
     }
     
     // NB: Times 2 because this should give teaching at 50%.
-    return load / (BASE_WORKLOAD * 2);
+    return load;
 }
 
 /**
@@ -124,19 +86,6 @@ function calculateTeachingEfts(allocation) {
 	efts = efts + (allocation_record.efts * course_load);
     }    
     return efts;
-}
-
-function calculateSupervisionLoad(allocation) {
-    var load = 0;
-
-    for(var i=0;i!=allocation.length;++i) {
-	var allocation_record = allocation[i];
-	var supervision_load = allocation_record.load;          
-	load = load + supervision_load;
-    }
-    
-    // NB: Times 2 because this should give teaching at 50%.
-    return Math.min(load,MAX_POSTGRAD_BUYOUT) / (POSTGRADS_PER_COURSE * BASE_WORKLOAD * 2);
 }
 
 /**
@@ -166,9 +115,6 @@ function calculateStaffAllocation(staff,courses,teaching) {
 	    var staff_record = staff2courses[staff_name];
 	    var staff_new = isStaffNew(staff_name,staff);
 	    var course_new = isCourseNew(course_id,courses);
-	    var course_large = isCourseLarge(course_id,courses);
-	    var course_small = isCourseSmall(course_id,courses);
-	    var course_strategic = isCourseStrategic(course_id,courses);
 	    var course_efts = getCourseEfts(course_id,courses);
 
 	    staff_record.allocation.push({
@@ -178,9 +124,6 @@ function calculateStaffAllocation(staff,courses,teaching) {
 		newCourse: course_new, 
 		newToCourse: staff_newToCourse, 
 		newStaff: staff_new,
-		largeCourse: course_large,
-		smallCourse: course_small,
-		strategicCourse: course_strategic,
 		efts: course_efts
 	    });
 	}
@@ -188,37 +131,6 @@ function calculateStaffAllocation(staff,courses,teaching) {
 
     // Done
     return staff2courses;
-}
-
-/**
- * Calculate the allocation of courses to individual staff members,
- * including their current workload allocation.
- */
-function calculateStaffSupervision(supervision_records,staff) {
-    var staff_records = {};
-
-    // First, initialise staff records
-    for(var i=0;i!=staff.length;++i) {
-    	var staff_name = staff[i].name;
-    	staff_records[staff_name] = { name: staff_name, allocation: [] };
-    }
-
-    // Second, merge records together for each staff member.
-    for(var i=0;i!=supervision_records.length;i=i+1) {
-    	var supervision_record = supervision_records[i];
-    	var student_name = supervision_record.student;
-    	var staff_name = supervision_record.supervisor;
-    	var supervision_load = supervision_record.load;
-
-    	if(staff_name in staff_records) {
-    	    // Sanity check staff member actually registered
-    	    var staff_record = staff_records[staff_name];
-    	    staff_record.allocation.push({name: student_name, load: supervision_load});
-    	}
-    }
-
-    // Done
-    return staff_records;
 }
 
 /**
@@ -252,9 +164,6 @@ function calculateCourseAllocation(staff,courses,teaching) {
 	    var course_record = courses2staff[course_id];
 	    var staff_new = isStaffNew(staff_name,staff);
 	    var course_new = isCourseNew(course_id,courses);
-	    var course_large = isCourseLarge(course_id,courses);
-	    var course_small = isCourseSmall(course_id,courses);
-	    var course_strategic = isCourseStrategic(course_id,courses);
 	    course_record.allocation.push({
 		name: staff_name, 
 		load: course_load, 
@@ -262,9 +171,6 @@ function calculateCourseAllocation(staff,courses,teaching) {
 		newCourse: course_new, 
 		newToCourse: staff_newToCourse,
 		newStaff: staff_new,
-		largeCourse: course_large,
-		smallCourse: course_small,
-		strategicCourse: course_strategic
 	    });
 	    course_record.coverage += course_load;
 	} 
@@ -300,48 +206,6 @@ function isCourseNew(id,courses) {
     	var course_id = courses[i].id;
     	if(course_id == id) { 
     	    return courses[i]["new"]; 
-    	}
-    }
-    return false;
-}
-
-/**
- * Determine whether a given course is considered "large" (L).  Members
- * of staff get various discounts related to teaching large courses.
- */
-function isCourseLarge(id,courses) {
-    for(var i=0;i!=courses.length;++i) {
-    	var course_id = courses[i].id;
-    	if(course_id == id) { 
-    	    return courses[i].expected >= LARGE_COURSE_MARK; 
-    	}
-    }
-    return false;
-}
-
-/**
- * Determine whether a given course is considered "small" (S).  Members
- * of staff get less discount for teaching small courses.
- */
-function isCourseSmall(id,courses) {
-    for(var i=0;i!=courses.length;++i) {
-    	var course_id = courses[i].id;
-    	if(course_id == id) { 
-    	    return courses[i].expected <= SMALL_COURSE_MARK; 
-    	}
-    }
-    return false;
-}
-
-/**
- * Determine whether a given course is considered "stategic" (T).  Members
- * of staff get various discounts related to teaching strategic courses.
- */
-function isCourseStrategic(id,courses) {
-    for(var i=0;i!=courses.length;++i) {
-    	var course_id = courses[i].id;
-    	if(course_id == id) { 
-    	    return courses[i].strategic; 
     	}
     }
     return false;
@@ -386,15 +250,6 @@ function toAllocationString(records) {
 	if(record.coordinator) {
 	    result = result + ",CC";
 	} 
-	if(record.largeCourse) {
-	    result = result + ",L";
-	}
-	if(record.smallCourse) {
-	    result = result + ",S";
-	}
-	if(record.strategicCourse) {
-	    result = result + ",T";
-	}
 	result = result + ")";
     }
     return result;
@@ -402,18 +257,9 @@ function toAllocationString(records) {
 
 function toModifierString(record) {
     var modifiers = "";
-    if(record.expected >= LARGE_COURSE_MARK) {
-    	modifiers += "Large";
-    } else if(record.expected <= SMALL_COURSE_MARK) {
-        modifiers += "Small";
-    }
     if(record["new"]) {
     	if(modifiers != "") { modifiers += ", "; }
     	modifiers += "New";
-    }
-    if(record.strategic) {
-    	if(modifiers != "") { modifiers += ", "; }
-    	modifiers += "Strategic";
     }
     if(!record.offered) {
     	if(modifiers != "") { modifiers += ", "; }
@@ -447,14 +293,11 @@ function addRow(table,value) {
  * 2) List of courses and their details (e.g. estimated enrollements,
  * etc))
  *
- * 3) List of postgraduate students and their details (e.g. degree,
- * supervisors, etc)
- *
  * 4) List of allocations where reach record allocates a given staff
  * member to a given course.
  */
-function populateTables(staff,courses,students,supervision,teaching) {
-    
+function populateTables(staff,courses,teaching) {
+
     // First, populate the staff table
     var staffTable = document.getElementById("staff");
     $.each(staff,function(key,value){
@@ -466,9 +309,6 @@ function populateTables(staff,courses,students,supervision,teaching) {
 	       value.name,
 	       value.group,
 	       fte,
-	       research,
-	       teaching,
-	       admin,
 	       value["new"],
 	       value.notes);
     });
@@ -483,38 +323,19 @@ function populateTables(staff,courses,students,supervision,teaching) {
 	       value.expected,
 	       toModifierString(value));
     });
-    
-    // Third, populate the students table
-    var studentsTable = document.getElementById("students");
-    $.each(students,function(key,value){
-       addRow(studentsTable,
-	      value.name,
-	      value.degree);
-    });
 
-    // Fourth, populate the supervision table
-    var supervisionTable = document.getElementById("supervision");
-    var supervision_allocation = calculateStaffSupervision(supervision,staff);
-    $.each(supervision_allocation,function(key,value){
-	var load = calculateSupervisionLoad(value.allocation);
-    	addRow(supervisionTable,
-	       value.name,
-	       Math.round(load*100)+"%",
-	       toAllocationString(value.allocation));
-    });
-
-    // Fifth, populate the allocation table
+    // Fourth, populate the allocation table
     var staff_allocation = calculateStaffAllocation(staff,courses,teaching);
     var course_allocation = calculateCourseAllocation(staff,courses,teaching);
         
     var allocationTable = document.getElementById("staff-allocation");
     $.each(staff_allocation,function(key,value){       
-	var load = calculateTeachingLoad(value.allocation);
+	var load = calculateTeachingHours(value.allocation);
 	var efts = calculateTeachingEfts(value.allocation);
 	addRow(allocationTable,
 	       value.name,
-	       Math.round(load*100) + "%",
-	       efts,
+	       Math.round(load),
+	       Math.round(efts),
 	       toAllocationString(value.allocation));
     });
     
@@ -538,27 +359,30 @@ function populateTables(staff,courses,students,supervision,teaching) {
 	var staff_group = value.group;
         var fte = calculateEffectiveFTE(value.fte,value.buyout,value.leave);
         var admin_load = value.admin;
-	var raw_teaching_load = calculateTeachingLoad(staff_allocation[staff_name].allocation);
-	var raw_supervision_load = calculateSupervisionLoad(supervision_allocation[staff_name].allocation);
-	var teaching_load = raw_teaching_load + raw_supervision_load;
 	var research_load = value.research;
-	var raw_overall_load = admin_load + teaching_load + research_load;
-	var overall_load = raw_overall_load / fte;
-	var overall_html = Math.round(100*raw_overall_load) + " / " + (fte * 100) + " = " + Math.round(100*overall_load)+"%";
+	var teaching_load = 1.0 - (admin_load + research_load);
+	var teaching_hours = calculateTeachingHours(staff_allocation[staff_name].allocation);
+	var teaching_base = BASE_HOURS * fte * teaching_load;
+	var teaching_workload = teaching_hours / (BASE_HOURS * fte);
+	var teaching_html = Math.round(100*teaching_workload) + "% (" + Math.round(teaching_hours) + " hours)";
+	var overall = Math.round(100 * (admin_load + research_load + teaching_workload));
+	var overall_html;
 	// calculate status
-	if(overall_load > 1.2) {
-	    overall_html = "<div class=\"status_less\">" + overall_html + "</div>";
-	} else if(overall_load >= 0.95) {
-	    overall_html = "<div class=\"status_ok\">" + overall_html + "</div>";
-	} 
+	if(overall > 120) {
+	    overall_html = "<div class=\"status_less\">" + overall + "%</div>";
+	} else if(overall >= 95) {
+	    overall_html = "<div class=\"status_ok\">" + overall + "%</div>";
+	} else  {
+	    overall_html = overall + "%";
+	}
 	// add summary row
-	addRow(summaryTable,	       
+	addRow(summaryTable,
 	       staff_name,
 	       staff_group,
 	       Math.round(fte*100)+"%",
 	       Math.round(100*research_load) + "%",
-	       Math.round(100*raw_teaching_load) + "% + " +  Math.round(100*raw_supervision_load) + "% = " + Math.round(100*teaching_load)+"%",
 	       Math.round(100*admin_load)+"%",
+	       teaching_html,
 	       overall_html);	
     });
 }

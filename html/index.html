@@ -8,17 +8,13 @@
 $(document).ready(function () {
   $.getJSON("${ROOT_URL}/data/${YEAR}/staff",function(staff) {
     $.getJSON("${ROOT_URL}/data/${YEAR}/courses",function(courses) {
-      $.getJSON("${ROOT_URL}/data/${YEAR}/students",function(students) {
-        $.getJSON("${ROOT_URL}/data/${YEAR}/supervision",function(supervision) {
-          $.getJSON("${ROOT_URL}/data/${YEAR}/teaching",function(teaching) {
-            populateTables(staff,courses,students,supervision,teaching);
-          });
-        });
+      $.getJSON("${ROOT_URL}/data/${YEAR}/teaching",function(teaching) {
+            populateTables(staff,courses,teaching);
       });
     });
   });
 
-  $("#tabs").tabs();
+  $("#tabs").tabs(); 
 });
 
 </script>
@@ -32,10 +28,8 @@ $(document).ready(function () {
   <ul>
     <li><a href="#tabs-summary">Summary</a></li>
     <li><a href="#tabs-teaching">Teaching</a></li>
-    <li><a href="#tabs-supervision">Supervision</a></li>    
     <li><a href="#tabs-staff">Staff</a></li>
     <li><a href="#tabs-courses">Courses</a></li>
-    <li><a href="#tabs-students">Students</a></li>
   </ul>
 <div id="tabs-summary">
   <%include file="summary-tab.html"/>
@@ -43,17 +37,11 @@ $(document).ready(function () {
 <div id="tabs-teaching">
   <%include file="teaching-tab.html"/>
 </div>
-<div id="tabs-supervision">
-  <%include file="supervision-tab.html"/>
-</div>
 <div id="tabs-staff">
   <%include file="staff-tab.html"/>
 </div>
 <div id="tabs-courses">
   <%include file="courses-tab.html"/>
-</div>
-<div id="tabs-students">
-  <%include file="students-tab.html"/>
 </div>
 </div>
 </%def>

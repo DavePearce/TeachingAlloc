@@ -1,4 +1,4 @@
-#!/usr/local/bin/python
+#!/usr/pkg/bin/python2.7
 
 # =============================================================
 # USER CONFIG

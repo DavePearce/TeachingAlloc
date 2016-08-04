@@ -3,7 +3,7 @@
 <table class="data" id="staff-allocation">
   <tr>
     <th>Staff</th>
-    <th>Contribution</th>
+    <th>Hours</th>
     <th>#EFTs</th>
     <th>Allocation</th>
   </tr>
@@ -23,21 +23,12 @@
 </p>
 <h2>Legend</h2>
 <ul>
-<li><b>CC</b> - Course Coordinator (gives additional load of 10%)
+<li><b>CC</b> - Course Coordinator
 <li><b>NL</b> - New Lecturer to course (gives additional load of 50%)
 <li><b>NC</b> - New Course (gives additional load of 50%)
 <li><b>NS</b> - New Staff member (gives additional load of 50%)
-<li><b>L</b> - Large course (gives additional load of 15%)
-<li><b>S</b> - Small course (currently, <i>no effect</i>)
-<li><b>T</b> - sTrategic course (gives additional load of 15%)
 </ul>
 <h2>Notes</h2>
 <ul>
-<li><p><b>Contribution</b> - This is the calculated <i>lecturing contribution</i>.  The normal teaching contribution is 50% (i.e. with 40% for research and 10% for admin) and is made up from two components: <i>lecturing</i> and <i>supervision</i>.  A teaching contribution of 50% is equivalent to teaching four "standard" courses and, hence, each "standard" course gives a 12.5% teaching contribution.  </p>
-  <p>A standard course is rated at 1.0.  Course coordinators get an additional 0.1 bonus.  Lecturers on large or strategic courses get an additional 0.15 bonus.  Lecturers on new courses, or who are teaching a course for the first time, get an additional 0.50 bonus.  Likewise, new staff are given a 0.5 bonus for their first two years (<b>note:</b> this differs slightly from the <a href="https://ecs.victoria.ac.nz/Staff/TeachingAllocation">official workload model</a>).</p>
-  <p>The maximum rating for one course is: <code>1.0 * (1.0 + 0.1 +
-  0.15 + 0.15 + 0.50 + 0.50 + 0.50) = 2.9</code> (that's a new staff
-  member teaching and coordinating a new, strategic and large course
-  for the first time).  This would then correspond to a teaching
-  contribution of: <code>(2.9 * 50) / 4 = 36.25%</code></p></li>
+  <li><p><b>Hours</b> - This is the calculated <i>teaching hours</i>.  The hours for a course are calculated at <code>150 + n</code>, where <code>n</code> is the number of enrolments.  This is then distributed to staff based on their load for the course.  Course Coordinators get a bonus 20%.  Lecturers on new courses, or who are teaching a course for the first time, get an additional 0.50 bonus.  Likewise, new staff are given a 0.5 bonus for their first two years (<b>note:</b> this differs slightly from the <a href="https://ecs.victoria.ac.nz/Staff/TeachingAllocation">official workload model</a>).</p>
 </ul>

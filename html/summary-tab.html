@@ -1,15 +1,17 @@
 <p>
 <center>
 <table class="data" id="summary">
-  <tr>
-    <th>Staff</th>
-    <th>Group</th>
-    <th>Effective FTE</th>
-    <th>Research</th>        
-    <th>Teaching</th>
-    <th>Admin</th>    
-    <th>Overall</th>
-  </tr>
+  <thead>
+    <tr>
+      <th>Staff</th>
+      <th>Group</th>
+      <th>Effective FTE</th>
+      <th>Research</th>
+      <th>Admin</th>         
+      <th>Teaching</th>
+      <th>Overall</th>      
+    </tr>
+  </thead>
 </table>
 </center>
 </p>
@@ -20,13 +22,15 @@
 </ul>
 <h2>Notes</h2>
 <ul>
-<li><p><b>Effective FTE</b> - This is the <a href="http://en.wikipedia.org/wiki/Full-time_equivalent">full-time equivalent</a> teaching load for an individual.  It is considered "effective" because it is calculated from their contract FTE (e.g. part-time, full-time, etc), and any additional buyouts (e.g. from grants).</p></li>
+<li><p><b>Effective FTE</b> - This is the <a href="http://en.wikipedia.org/wiki/Full-time_equivalent">full-time equivalent</a> teaching load for an individual.  It is considered "effective" because it is calculated from their contract FTE (e.g. part-time, full-time, etc), and any additional buyouts (e.g. from grants).  <b>The baseline for all calculation is an expectation of 1725 hours per year for a staff member on 1.0 FTE</b>.  </p></li>
 
-<li><p><b>Research</b> - This is the research contribution (i.e. the ratio of time spent on research activities) for a given staff member.  Note, this does not include supervision, which is counted separately.</p></li>
+<li><p><b>Research</b> - This is the research contribution (i.e. the ratio of their time spent on research activities) for a given staff member, including supervision responsibilities.</p></li>
 
-<li><p><b>Teaching</b> - This is the calculated teaching contribution, which is made up from two components: <i>lecturing</i> and <i>supervision</i>.  See "Teaching" for the complete calculation, and more information on how it is calculated.</p></li>
+<li><p><b>Admin</b> - This is the admin contribution for an individual (i.e. the ratio of their time spent on specific administrative responsibilities).  For most staff, this figure is expected to be zero.  Those with recognised administrative roles should see them included here.</p></li>
 
-<li><p><b>Admin</b> - This is the admin contribution for an individual.  See "Staff" for more information on this.</p></li>
+<li><p><b>Teaching Hours</b> - This is the estimated number of hours the given staff member is expected to teach.  See "Teaching" for the complete calculation, and more information on how it is calculated.</p></li>
+
+<li><p><b>Teaching Workload</b> - This is the <i>estimated</i> teaching contribution for an individual (i.e. the ratio of their time spent on teaching responsibilities).  This is calculated as <code>hours / (1725 * fte)</code>.</p></li>
 
 <li><p><b>Overall</b> - This is the overall calculated workload, which is the calculated workload over the effective FTE.</p></li>
 </ul>
