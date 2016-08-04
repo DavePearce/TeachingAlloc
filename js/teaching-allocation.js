@@ -54,10 +54,6 @@ function calculateTeachingHours(base, allocation) {
             // New Staff (NS) are given a 50% additional weighting.
             final_load += course_load * 0.5;
 	}
-	if(allocation_record.newCourse) {
-            // New Courses (NC) are given a 50% additional weighting.
-            final_load += course_load * 0.5;
-	}
 	var c = allocation_record.constant_c;
 	var f = allocation_record.coefficient_f;
 	var n = allocation_record.efts;
