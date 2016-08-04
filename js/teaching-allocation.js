@@ -394,10 +394,12 @@ function populateTables(staff,courses,teaching) {
 	var overall = Math.round(100 * (admin_load + research_load + teaching_workload));
 	var overall_html;
 	// calculate status
-	if(overall > 120) {
-	    overall_html = "<div class=\"status_less\">" + overall + "%</div>";
-	} else if(overall >= 95) {
-	    overall_html = "<div class=\"status_ok\">" + overall + "%</div>";
+	if(overall > 100) {
+	    overall_html = "<div class=\"status_red\">" + overall + "%</div>";
+	} else if(overall >= 90) {
+	    overall_html = "<div class=\"status_yellow\">" + overall + "%</div>";
+	} else if(overall >= 70) {
+	    overall_html = "<div class=\"status_green\">" + overall + "%</div>";
 	} else  {
 	    overall_html = overall + "%";
 	}
